@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>8x8 — MMG Insurance Call Brief</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#d6d2cb;
+    min-height:100vh;
+    padding:20px 16px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .toolbar {
+    display:flex; justify-content:center; gap:10px;
+    margin-bottom:18px; flex-wrap:wrap; align-items:center;
+  }
+  .tool-btn {
+    padding:7px 18px; border-radius:20px; border:1.5px solid #555;
+    background:white; color:#333; font-size:11px; font-weight:600;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .tool-btn:hover { background:#f5f5f5; }
+  .tool-btn.print { border-color:#111; color:#111; }
+
+  .slide {
+    width:1100px;
+    background:#EAE9E1;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 24px rgba(0,0,0,0.15);
+  }
+
+  /* HEADER */
+  .header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:13px 28px; border-bottom:1.5px solid #bbb;
+    background:#EAE9E1;
+  }
+  .logo { font-size:22px; font-weight:900; color:#111; letter-spacing:-1px; }
+  .hdr-center { text-align:center; }
+  .hdr-title { font-size:14px; font-weight:700; color:#111; }
+  .hdr-sub { font-size:10px; color:#888; margin-top:2px; }
+  .hdr-right { text-align:right; }
+  .hdr-badge {
+    font-size:10px; font-weight:700; background:#008486; color:white;
+    padding:4px 12px; border-radius:12px; display:inline-block; margin-bottom:3px;
+  }
+  .hdr-date { font-size:10px; color:#aaa; }
+
+  /* ALERT BANNER */
+  .alert-banner {
+    background:#fff3cd; border-bottom:1.5px solid #f0d58c;
+    padding:9px 28px; display:flex; align-items:center; gap:10px;
+    font-size:11px; font-weight:600; color:#856404;
+  }
+  .alert-icon { font-size:14px; }
+
+  /* BODY */
+  .body {
+    display:flex;
+    min-height:700px;
+  }
+
+  /* LEFT SIDEBAR */
+  .left-sidebar {
+    width:260px; flex-shrink:0;
+    border-right:1px solid #ccc;
+    display:flex; flex-direction:column;
+  }
+
+  .sidebar-section {
+    padding:18px 20px;
+    border-bottom:1px solid #ddd;
+  }
+  .sidebar-section:last-child { border-bottom:none; flex:1; }
+
+  .ss-label {
+    font-size:8.5px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.7px; color:#aaa; margin-bottom:10px;
+  }
+
+  .ss-row {
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding:5px 0; border-bottom:1px solid #e8e5de; gap:8px;
+  }
+  .ss-row:last-child { border-bottom:none; }
+  .ss-key { font-size:10px; color:#888; flex-shrink:0; }
+  .ss-val { font-size:11px; font-weight:600; color:#222; text-align:right; line-height:1.4; }
+  .ss-val.teal { color:#008486; }
+  .ss-val.green { color:#0a6640; }
+
+  /* Contact cards */
+  .contact-card {
+    background:white; border-radius:7px; padding:10px 12px;
+    margin-bottom:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  .contact-card:last-child { margin-bottom:0; }
+  .cc-name { font-size:12px; font-weight:700; color:#111; margin-bottom:2px; }
+  .cc-title { font-size:10px; color:#008486; font-weight:600; margin-bottom:4px; }
+  .cc-detail { font-size:10px; color:#777; line-height:1.6; }
+  .cc-tag {
+    font-size:8.5px; font-weight:700; padding:2px 7px; border-radius:8px;
+    display:inline-block; margin-top:4px;
+  }
+  .tag-influencer { background:#e6f4f4; color:#008486; border:1px solid #b3dede; }
+  .tag-partner { background:#f0ede6; color:#666; border:1px solid #ddd; }
+  .tag-tsd { background:#111; color:white; }
+  .tag-nodirect { background:#fff3cd; color:#856404; border:1px solid #f0d58c; }
+
+  /* MAIN CONTENT */
+  .main-content {
+    flex:1;
+    padding:22px 28px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    overflow-y:auto;
+  }
+
+  /* Section cards */
+  .info-section {
+    background:white;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .is-header {
+    padding:8px 14px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .is-header.teal { background:#008486; }
+  .is-header.dark { background:#111; }
+  .is-header.lime { background:#C9DC4F; }
+  .is-header.slate { background:#4a7a8a; }
+  .is-header.orange { background:#c0622a; }
+  .is-header.purple { background:#6b4fa0; }
+
+  .is-title {
+    font-size:10px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.5px; color:white;
+  }
+  .is-header.lime .is-title { color:#333; }
+  .is-icon { font-size:13px; }
+
+  .is-body { padding:12px 14px; }
+
+  /* Two column grid */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+  /* Bullet items */
+  .bullet-list { display:flex; flex-direction:column; gap:7px; }
+  .bullet-item {
+    display:flex; align-items:flex-start; gap:8px;
+    font-size:11.5px; color:#333; line-height:1.5;
+  }
+  .b-dot {
+    width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:5px;
+  }
+  .b-dot.teal { background:#008486; }
+  .b-dot.dark { background:#111; }
+  .b-dot.lime { background:#9aaa20; }
+  .b-dot.red { background:#c0392b; }
+  .b-dot.orange { background:#e07b39; }
+
+  /* Tech stack pills */
+  .tech-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tech-pill {
+    font-size:10.5px; font-weight:600; padding:4px 12px; border-radius:14px;
+    border:1.5px solid;
+  }
+  .pill-avaya { background:#fff0f0; color:#c0392b; border-color:#f5c6c6; }
+  .pill-teams { background:#e8f0ff; color:#2b5cb8; border-color:#c0d0f5; }
+  .pill-vdi { background:#f0e8ff; color:#6b4fa0; border-color:#d5c0f5; }
+  .pill-neutral { background:#f4f2ec; color:#555; border-color:#ddd; }
+
+  /* Flag items */
+  .flag-item {
+    display:flex; align-items:flex-start; gap:8px;
+    background:#fff8e6; border:1px solid #f0d58c; border-radius:6px;
+    padding:8px 10px; font-size:11px; color:#7a5c00; line-height:1.5;
+    margin-bottom:6px;
+  }
+  .flag-item:last-child { margin-bottom:0; }
+  .flag-icon { font-size:13px; flex-shrink:0; }
+
+  /* Agenda items */
+  .agenda-item {
+    display:flex; align-items:center; gap:10px;
+    padding:7px 0; border-bottom:1px solid #f0ede6; font-size:11.5px; color:#333;
+  }
+  .agenda-item:last-child { border-bottom:none; }
+  .agenda-num {
+    width:22px; height:22px; border-radius:50%; background:#008486;
+    color:white; font-size:10px; font-weight:700; display:flex;
+    align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .agenda-time { font-size:10px; color:#aaa; min-width:45px; text-align:right; flex-shrink:0; }
+
+  /* Question items */
+  .q-item {
+    padding:7px 0; border-bottom:1px solid #f0ede6;
+    font-size:11.5px; color:#333; line-height:1.5;
+  }
+  .q-item:last-child { border-bottom:none; }
+  .q-num { font-size:10px; font-weight:700; color:#008486; margin-bottom:2px; }
+
+  /* FOOTER */
+  .slide-footer {
+    background:white; border-top:1px solid #e0ddd6;
+    padding:9px 28px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .fl { font-size:9.5px; color:#aaa; }
+  .fr { display:flex; gap:20px; }
+  .fi { text-align:right; }
+  .fi-l { font-size:8.5px; color:#bbb; text-transform:uppercase; }
+  .fi-v { font-size:11px; font-weight:600; color:#444; }
+
+  @media print {
+    body { background:white; padding:0; }
+    .toolbar { display:none; }
+    .slide { box-shadow:none; border-radius:0; width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="tool-btn print" onclick="window.print()">🖨️ Print / Export PDF</button>
+</div>
+
+<div class="slide">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">8x8</div>
+    <div class="hdr-center">
+      <div class="hdr-title">MMG Insurance — Pre-Call Brief</div>
+      <div class="hdr-sub">Presque Isle, ME &nbsp;·&nbsp; CCaaS Evaluation &nbsp;·&nbsp; $200K Annual Budget</div>
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-badge">CCaaS Opportunity</div>
+      <div class="hdr-date">Prepared by Dustin Moya · March 2026</div>
+    </div>
+  </div>
+
+  <!-- ALERT BANNER -->
+  <div class="alert-banner">
+    <span class="alert-icon">⚠️</span>
+    DO NOT contact the customer directly — all next steps and communications must flow through the partner: <strong>&nbsp;Edmon Esquilin · Altera IT Solutions</strong>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="left-sidebar">
+
+      <!-- Deal Snapshot -->
+      <div class="sidebar-section">
+        <div class="ss-label">Deal Snapshot</div>
+        <div class="ss-row"><span class="ss-key">Account</span><span class="ss-val">MMG Insurance</span></div>
+        <div class="ss-row"><span class="ss-key">Vertical</span><span class="ss-val">P&C Insurance</span></div>
+        <div class="ss-row"><span class="ss-key">Employees</span><span class="ss-val">~500</span></div>
+        <div class="ss-row"><span class="ss-key">CC Agents</span><span class="ss-val">100 concurrent / 200 provisioned</span></div>
+        <div class="ss-row"><span class="ss-key">Budget</span><span class="ss-val teal">$200,000 / yr</span></div>
+        <div class="ss-row"><span class="ss-key">Timeframe</span><span class="ss-val">9–12 months eval</span></div>
+        <div class="ss-row"><span class="ss-key">Incumbent</span><span class="ss-val">Avaya PBX + CC Elite</span></div>
+        <div class="ss-row"><span class="ss-key">Other Vendors</span><span class="ss-val green">None currently</span></div>
+        <div class="ss-row"><span class="ss-key">Stage</span><span class="ss-val">1 — Qualify</span></div>
+      </div>
+
+      <!-- Channel -->
+      <div class="sidebar-section">
+        <div class="ss-label">Channel</div>
+        <div class="contact-card">
+          <div class="cc-name">Briahn Forster</div>
+          <div class="cc-title">Avant</div>
+          <div class="cc-detail">TSD / Master Agent</div>
+          <span class="cc-tag tag-tsd">TSD</span>
+        </div>
+        <div class="contact-card">
+          <div class="cc-name">Edmon Esquilin</div>
+          <div class="cc-title">Altera IT Solutions LLC</div>
+          <div class="cc-detail">(973) 826-4099<br/>eesquilin@alterasolutions.com</div>
+          <span class="cc-tag tag-partner">Sub-Agent · Primary Contact</span>
+        </div>
+      </div>
+
+      <!-- Customer Contact -->
+      <div class="sidebar-section">
+        <div class="ss-label">Customer Contact</div>
+        <div class="contact-card">
+          <div class="cc-name">Willie Winslow</div>
+          <div class="cc-title">Senior Systems Engineer</div>
+          <div class="cc-detail">
+            MMG Insurance<br/>
+            44 Maysville St.<br/>
+            Presque Isle, ME 04769<br/>
+            (207) 551-5728<br/>
+            willie.winslow@mmgins.com
+          </div>
+          <span class="cc-tag tag-influencer">Influencer — Not EB</span>
+          <span class="cc-tag tag-nodirect" style="margin-left:4px;">No Direct Contact</span>
+        </div>
+      </div>
+
+      <!-- 8x8 Team -->
+      <div class="sidebar-section">
+        <div class="ss-label">8x8 Team</div>
+        <div class="ss-row"><span class="ss-key">AE</span><span class="ss-val">Dustin Moya</span></div>
+        <div class="ss-row"><span class="ss-key">SE</span><span class="ss-val">TBD</span></div>
+        <div class="ss-row"><span class="ss-key">CX Spec</span><span class="ss-val">TBD</span></div>
+      </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- ROW 1: Company Background + Tech Stack -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">🏢</span>
+            <span class="is-title">Company Background</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot teal"></div>Regional P&C insurance company founded 1897 — 125+ years in business</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Headquartered in Presque Isle, ME with offices in NH, PA & VA</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>220+ independent agencies across 580+ locations in 5 states</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>AM Best Rating: <strong>A- (Excellent)</strong> — financially stable, serious buyer</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Exceeded $300M in premiums in 2024</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Named Best Places to Work in Maine — 10 times</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header dark">
+            <span class="is-icon">🖥️</span>
+            <span class="is-title">Current Tech Stack</span>
+          </div>
+          <div class="is-body">
+            <div class="tech-row">
+              <span class="tech-pill pill-avaya">Avaya PBX</span>
+              <span class="tech-pill pill-avaya">Avaya CC Elite</span>
+              <span class="tech-pill pill-teams">Microsoft Teams</span>
+              <span class="tech-pill pill-vdi">VMware Horizon VDI</span>
+              <span class="tech-pill pill-neutral">Voice-Only CC Today</span>
+              <span class="tech-pill pill-neutral">CRM (TBD)</span>
+              <span class="tech-pill pill-neutral">Help Desk (TBD)</span>
+            </div>
+            <div style="margin-top:12px;">
+              <div class="bullet-list">
+                <div class="bullet-item"><div class="b-dot dark"></div>~200 provisioned users sharing 100 concurrent agent licenses</div>
+                <div class="bullet-item"><div class="b-dot dark"></div>Agents working on virtual desktops via VMware Horizon — VDI compatibility is a key technical requirement to validate</div>
+                <div class="bullet-item"><div class="b-dot dark"></div>Teams in place for broader org — integration expected in new solution</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: Pain Points + Requirements -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header orange">
+            <span class="is-icon">⚠️</span>
+            <span class="is-title">Pain Points & Drivers</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot orange"></div><strong>Legacy infrastructure</strong> — Avaya PBX end-of-life path, modernization overdue</div>
+              <div class="bullet-item"><div class="b-dot orange"></div><strong>Voice-only limitations</strong> — no chat, email, or social media capability today</div>
+              <div class="bullet-item"><div class="b-dot orange"></div><strong>No real-time visibility</strong> — supervisors lack call center stats and live dashboards</div>
+              <div class="bullet-item"><div class="b-dot orange"></div><strong>Manual reporting</strong> — no historical analytics or insights built in</div>
+              <div class="bullet-item"><div class="b-dot orange"></div><strong>Admin complexity</strong> — current setup is difficult to manage and configure</div>
+              <div class="bullet-item"><div class="b-dot orange"></div><strong>No CRM/helpdesk integration</strong> — data siloed, no real-time sharing between systems</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header slate">
+            <span class="is-icon">⚙️</span>
+            <span class="is-title">Key Requirements</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>Omnichannel</strong> — voice, chat, email, social media on a single platform</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>Microsoft Teams integration</strong> — unified experience across CC and UC</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>CRM & helpdesk integration</strong> — real-time data sharing, screen pop, logging</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>Real-time supervisor dashboards</strong> — agent status, queue metrics, SLA tracking</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>Historical reporting & analytics</strong> — replace manual processes</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>VDI compatibility</strong> — must work on VMware Horizon environment</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>~100 concurrent agents</strong> — scalable licensing model</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 3: 8x8 Fit + Agenda -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header lime">
+            <span class="is-icon">✅</span>
+            <span class="is-title">Why 8x8 Fits</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>X7/X8 CCaaS</strong> — omnichannel (voice, chat, email, social) built in natively</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Teams integration</strong> — native Direct Routing + Engage for unified experience</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Supervisor Workspace + Analytics</strong> — real-time dashboards, configurable thresholds, scheduled reports</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>QMSA</strong> — AI-powered call categorization, sentiment, transcription</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>CRM integrations</strong> — native connectors + open API for helpdesk</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Strong Avaya migration story</strong> — 8x8 wins these regularly</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>HIPAA / compliance certified</strong> — important for insurance vertical</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>$200K budget</strong> — comfortably supports X7/X8 at 100 concurrent agents</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">📅</span>
+            <span class="is-title">Suggested Call Agenda</span>
+          </div>
+          <div class="is-body">
+            <div class="agenda-item">
+              <div class="agenda-num">1</div>
+              <div style="flex:1;">Intro — acknowledge Edmon's referral, set the stage</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">2</div>
+              <div style="flex:1;">Validate the brief — current state, pain, confirm scope</div>
+              <div class="agenda-time">10 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">3</div>
+              <div style="flex:1;">Deep dive — Avaya, VDI, Teams setup, agent workflow</div>
+              <div class="agenda-time">10 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">4</div>
+              <div style="flex:1;">8x8 positioning — CCaaS fit, Teams, omnichannel path</div>
+              <div class="agenda-time">10 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">5</div>
+              <div style="flex:1;">Stakeholder mapping — identify economic buyer above Willie</div>
+              <div class="agenda-time">7 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">6</div>
+              <div style="flex:1;">Next steps — schedule full demo with right people in room</div>
+              <div class="agenda-time">5 min</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 4: Key Questions + Flags -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header purple">
+            <span class="is-icon">❓</span>
+            <span class="is-title">Key Discovery Questions</span>
+          </div>
+          <div class="is-body">
+            <div class="q-item">
+              <div class="q-num">Q1 — Current State</div>
+              What's the main trigger for looking now — is there an Avaya contract ending, a specific incident, or is this purely strategic?
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q2 — Reporting Pain</div>
+              What does the lack of visibility look like day to day — real-time, historical, or both?
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q3 — VDI ⚠️</div>
+              Are agents on VMware Horizon virtual desktops today? Any voice quality or latency issues in that environment?
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q4 — Teams Depth</div>
+              Is Teams integration a must-have on day one, or a phase two goal?
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q5 — Omnichannel</div>
+              Chat, email, social — day one need or phased in over time?
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q6 — Integrations</div>
+              What CRM and helpdesk systems are in play? What does a good integration look like to you?
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q7 — Decision Maker</div>
+              Who else is evaluating this alongside you, and what does the internal approval process look like for a project of this size?
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header dark">
+            <span class="is-icon">🚩</span>
+            <span class="is-title">Flags & Watch Items</span>
+          </div>
+          <div class="is-body">
+            <div class="flag-item">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Willie is an influencer only</strong> — do not treat him as the economic buyer. Priority #1 is identifying who is above him and getting access before the deal advances.</div>
+            </div>
+            <div class="flag-item">
+              <span class="flag-icon">🚩</span>
+              <div><strong>VDI compatibility</strong> — VMware Horizon + CCaaS voice can be complex. SE to validate 8x8 performance in that environment before the demo.</div>
+            </div>
+            <div class="flag-item">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Avaya is still active</strong> — confirm whether Avaya is pitching their own cloud solution. Do not assume they're out of the picture.</div>
+            </div>
+            <div class="flag-item">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Long cycle</strong> — 9–12 month eval, cutover potentially beyond that. Keep Edmon engaged regularly so the deal doesn't go cold.</div>
+            </div>
+            <div class="flag-item">
+              <span class="flag-icon">✅</span>
+              <div><strong>Early mover advantage</strong> — no other vendors currently engaged. Get to a demo before the field opens up.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="slide-footer">
+    <div class="fl">8x8, Inc. — Confidential · MMG Insurance Pre-Call Brief · Do Not Distribute</div>
+    <div class="fr">
+      <div class="fi"><div class="fi-l">Partner</div><div class="fi-v">Altera IT Solutions · Avant</div></div>
+      <div class="fi"><div class="fi-l">Recommended License</div><div class="fi-v">X7 / X8 CCaaS</div></div>
+      <div class="fi"><div class="fi-l">Budget</div><div class="fi-v">$200K / yr</div></div>
+      <div class="fi"><div class="fi-l">AE</div><div class="fi-v">Dustin Moya</div></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
