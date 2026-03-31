@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>8x8 — Sequel Insurance Agencies Call Brief</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#d6d2cb; min-height:100vh;
+    padding:20px 16px; display:flex; flex-direction:column; align-items:center;
+  }
+  .toolbar {
+    display:flex; justify-content:center; gap:10px;
+    margin-bottom:18px; flex-wrap:wrap; align-items:center;
+  }
+  .tool-btn {
+    padding:7px 18px; border-radius:20px; border:1.5px solid #111;
+    background:white; color:#111; font-size:11px; font-weight:600;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .tool-btn:hover { background:#f5f5f5; }
+
+  .slide {
+    width:1100px; background:#EAE9E1; border-radius:10px;
+    overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.15);
+  }
+
+  .header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:13px 28px; border-bottom:1.5px solid #bbb; background:#EAE9E1;
+  }
+  .logo { font-size:22px; font-weight:900; color:#111; letter-spacing:-1px; }
+  .hdr-center { text-align:center; }
+  .hdr-title { font-size:14px; font-weight:700; color:#111; }
+  .hdr-sub { font-size:10px; color:#888; margin-top:2px; }
+  .hdr-right { text-align:right; }
+  .hdr-badge {
+    font-size:10px; font-weight:700; background:#008486; color:white;
+    padding:4px 12px; border-radius:12px; display:inline-block; margin-bottom:3px;
+  }
+  .hdr-badge.growth { background:#C9DC4F; color:#333; margin-left:6px; }
+  .hdr-date { font-size:10px; color:#aaa; margin-top:3px; }
+
+  .growth-banner {
+    background:#C9DC4F; padding:9px 28px;
+    display:flex; align-items:center; gap:10px;
+    font-size:11px; font-weight:700; color:#333;
+  }
+
+  .body { display:flex; min-height:700px; }
+
+  .left-sidebar {
+    width:255px; flex-shrink:0; border-right:1px solid #ccc;
+    display:flex; flex-direction:column;
+  }
+  .sidebar-section { padding:15px 18px; border-bottom:1px solid #ddd; }
+  .sidebar-section:last-child { border-bottom:none; flex:1; }
+  .ss-label {
+    font-size:8.5px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.7px; color:#aaa; margin-bottom:9px;
+  }
+  .ss-row {
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding:5px 0; border-bottom:1px solid #e8e5de; gap:8px;
+  }
+  .ss-row:last-child { border-bottom:none; }
+  .ss-key { font-size:10px; color:#888; flex-shrink:0; }
+  .ss-val { font-size:11px; font-weight:600; color:#222; text-align:right; line-height:1.4; }
+  .ss-val.teal { color:#008486; }
+  .ss-val.green { color:#0a6640; }
+  .ss-val.amber { color:#c0622a; }
+  .ss-val.lime { color:#7a9200; }
+
+  .contact-card {
+    background:white; border-radius:7px; padding:10px 12px;
+    margin-bottom:7px; box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  .contact-card:last-child { margin-bottom:0; }
+  .cc-name { font-size:12px; font-weight:700; color:#111; margin-bottom:2px; }
+  .cc-title { font-size:10px; color:#008486; font-weight:600; margin-bottom:4px; }
+  .cc-detail { font-size:10px; color:#777; line-height:1.6; }
+  .cc-tags { margin-top:5px; display:flex; flex-wrap:wrap; gap:4px; }
+  .cc-tag {
+    font-size:8.5px; font-weight:700; padding:2px 7px;
+    border-radius:8px; display:inline-block;
+  }
+  .tag-champion { background:#e6f4f4; color:#008486; border:1px solid #b3dede; }
+  .tag-confirm { background:#fff3cd; color:#856404; border:1px solid #f0d58c; }
+  .tag-partner { background:#f0ede6; color:#666; border:1px solid #ddd; }
+  .tag-tsd { background:#111; color:white; }
+  .tag-cam { background:#008486; color:white; }
+  .tag-netnew { background:#C9DC4F; color:#333; }
+
+  .main-content {
+    flex:1; padding:20px 26px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+
+  .info-section {
+    background:white; border-radius:8px;
+    overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  }
+  .is-header { padding:8px 14px; display:flex; align-items:center; gap:8px; }
+  .is-header.teal { background:#008486; }
+  .is-header.dark { background:#111; }
+  .is-header.lime { background:#C9DC4F; }
+  .is-header.slate { background:#4a7a8a; }
+  .is-header.orange { background:#c0622a; }
+  .is-header.purple { background:#6b4fa0; }
+  .is-header.red { background:#c0392b; }
+  .is-title {
+    font-size:10px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.5px; color:white;
+  }
+  .is-header.lime .is-title { color:#333; }
+  .is-icon { font-size:13px; }
+  .is-body { padding:12px 14px; }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+  .bullet-list { display:flex; flex-direction:column; gap:7px; }
+  .bullet-item {
+    display:flex; align-items:flex-start; gap:8px;
+    font-size:11.5px; color:#333; line-height:1.5;
+  }
+  .b-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+  .b-dot.teal { background:#008486; }
+  .b-dot.dark { background:#111; }
+  .b-dot.lime { background:#9aaa20; }
+  .b-dot.orange { background:#e07b39; }
+  .b-dot.red { background:#c0392b; }
+
+  .tech-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tech-pill {
+    font-size:10.5px; font-weight:600; padding:4px 12px;
+    border-radius:14px; border:1.5px solid;
+  }
+  .pill-rc { background:#fff0f0; color:#c0392b; border-color:#f5c6c6; }
+  .pill-teams { background:#e8f0ff; color:#2b5cb8; border-color:#c0d0f5; }
+  .pill-neutral { background:#f4f2ec; color:#555; border-color:#ddd; }
+  .pill-warning { background:#fff3cd; color:#856404; border-color:#f0d58c; }
+
+  .flag-item {
+    display:flex; align-items:flex-start; gap:8px;
+    border-radius:6px; padding:8px 10px;
+    font-size:11px; line-height:1.5; margin-bottom:6px;
+  }
+  .flag-item:last-child { margin-bottom:0; }
+  .flag-item.warn { background:#fff8e6; border:1px solid #f0d58c; color:#7a5c00; }
+  .flag-item.good { background:#e8fff0; border:1px solid #b3deb8; color:#0a5c2a; }
+  .flag-item.risk { background:#fff0f0; border:1px solid #f5c6c6; color:#8b0000; }
+  .flag-item.big { background:#e6f4f4; border:1px solid #b3dede; color:#005558; }
+
+  .stat-row { display:flex; gap:10px; margin-bottom:12px; }
+  .stat-box {
+    flex:1; background:#f4f2ec; border-radius:7px;
+    padding:10px 12px; text-align:center; border:1px solid #e0ddd6;
+  }
+  .stat-box.highlight { background:#008486; border-color:#008486; }
+  .stat-box.growth-box { background:#C9DC4F; border-color:#C9DC4F; }
+  .stat-num { font-size:20px; font-weight:900; color:#008486; line-height:1.1; }
+  .stat-box.highlight .stat-num { color:white; }
+  .stat-box.growth-box .stat-num { color:#333; }
+  .stat-label { font-size:9px; color:#888; text-transform:uppercase; letter-spacing:0.4px; margin-top:3px; }
+  .stat-box.highlight .stat-label { color:rgba(255,255,255,0.75); }
+  .stat-box.growth-box .stat-label { color:#555; }
+
+  .agenda-item {
+    display:flex; align-items:center; gap:10px;
+    padding:7px 0; border-bottom:1px solid #f0ede6;
+    font-size:11.5px; color:#333;
+  }
+  .agenda-item:last-child { border-bottom:none; }
+  .agenda-num {
+    width:22px; height:22px; border-radius:50%; background:#008486;
+    color:white; font-size:10px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .agenda-time { font-size:10px; color:#aaa; min-width:40px; text-align:right; flex-shrink:0; }
+
+  .q-item { padding:7px 0; border-bottom:1px solid #f0ede6; font-size:11.5px; color:#333; line-height:1.5; }
+  .q-item:last-child { border-bottom:none; }
+  .q-num { font-size:10px; font-weight:700; color:#008486; margin-bottom:2px; }
+
+  .tp-row {
+    display:flex; gap:0; border-bottom:1px solid #f0ede6; padding:8px 0;
+    font-size:11px; color:#333; line-height:1.5;
+  }
+  .tp-row:last-child { border-bottom:none; }
+  .tp-if { width:42%; padding-right:12px; color:#777; font-style:italic; border-right:1px solid #f0ede6; flex-shrink:0; }
+  .tp-then { padding-left:12px; font-weight:500; color:#222; flex:1; }
+  .tp-then strong { color:#008486; }
+
+  .slide-footer {
+    background:white; border-top:1px solid #e0ddd6;
+    padding:9px 28px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .fl { font-size:9.5px; color:#aaa; }
+  .fr { display:flex; gap:20px; }
+  .fi { text-align:right; }
+  .fi-l { font-size:8.5px; color:#bbb; text-transform:uppercase; }
+  .fi-v { font-size:11px; font-weight:600; color:#444; }
+
+  @media print {
+    body { background:white; padding:0; }
+    .toolbar { display:none; }
+    .slide { box-shadow:none; border-radius:0; width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="tool-btn" onclick="window.print()">🖨️ Print / Export PDF</button>
+</div>
+
+<div class="slide">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">8x8</div>
+    <div class="hdr-center">
+      <div class="hdr-title">Sequel Insurance Agencies — Pre-Call Brief</div>
+      <div class="hdr-sub">Hampton, NH &nbsp;·&nbsp; UCaaS + SMS &nbsp;·&nbsp; 150 Users Today → 400+ by Year End &nbsp;·&nbsp; RingCentral Displacement</div>
+    </div>
+    <div class="hdr-right">
+      <div>
+        <div class="hdr-badge">Net New · First Contact</div>
+        <div class="hdr-badge growth">🚀 High Growth Account</div>
+      </div>
+      <div class="hdr-date">Prepared by Dustin Moya · 2026</div>
+    </div>
+  </div>
+
+  <!-- GROWTH BANNER -->
+  <div class="growth-banner">
+    <span>📈</span>
+    <span>150 users today — expected to exceed <strong>400 by year end.</strong> &nbsp;No prior conversations have taken place. &nbsp;This is Dustin's first contact with Carl — size the deal for growth from the start. &nbsp;Parent company (SIAA) may be an additional opportunity post-close.</span>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- SIDEBAR -->
+    <div class="left-sidebar">
+
+      <div class="sidebar-section">
+        <div class="ss-label">Deal Snapshot</div>
+        <div class="ss-row"><span class="ss-key">Account</span><span class="ss-val">Sequel Insurance Agencies</span></div>
+        <div class="ss-row"><span class="ss-key">Parent</span><span class="ss-val teal">SIAA — Nation's largest IA alliance</span></div>
+        <div class="ss-row"><span class="ss-key">Industry</span><span class="ss-val">Independent Insurance / P&C</span></div>
+        <div class="ss-row"><span class="ss-key">Location</span><span class="ss-val">Hampton, NH</span></div>
+        <div class="ss-row"><span class="ss-key">Users Today</span><span class="ss-val teal">150</span></div>
+        <div class="ss-row"><span class="ss-key">Users by EOY</span><span class="ss-val lime">400+ 🚀</span></div>
+        <div class="ss-row"><span class="ss-key">Product</span><span class="ss-val">UCaaS + SMS</span></div>
+        <div class="ss-row"><span class="ss-key">Deal Value</span><span class="ss-val teal">$1,911/mo (logged)</span></div>
+        <div class="ss-row"><span class="ss-key">Budget</span><span class="ss-val amber">Not confirmed</span></div>
+        <div class="ss-row"><span class="ss-key">Expected Close</span><span class="ss-val">June 30, 2026</span></div>
+        <div class="ss-row"><span class="ss-key">Incumbent</span><span class="ss-val amber">RingCentral + Other</span></div>
+        <div class="ss-row"><span class="ss-key">Teams</span><span class="ss-val teal">Yes — in use now</span></div>
+        <div class="ss-row"><span class="ss-key">Prior Conversations</span><span class="ss-val amber">None — net new</span></div>
+        <div class="ss-row"><span class="ss-key">Stage</span><span class="ss-val">1 — Qualify</span></div>
+      </div>
+
+      <!-- Channel -->
+      <div class="sidebar-section">
+        <div class="ss-label">Channel</div>
+        <div class="contact-card">
+          <div class="cc-name">Intelisys Inc.</div>
+          <div class="cc-title">TSD / Master Agent</div>
+          <div class="cc-tags"><span class="cc-tag tag-tsd">Master Agent</span></div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-name">Drew Morcom</div>
+          <div class="cc-title">Norstar Networks</div>
+          <div class="cc-detail">Sub-Agent · Submitted the deal reg<br/>Confirm if attending first call</div>
+          <div class="cc-tags"><span class="cc-tag tag-partner">Sub-Agent</span></div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-name">Tricia Amato</div>
+          <div class="cc-title">Channel Account Manager — 8x8</div>
+          <div class="cc-detail">tricia.amato@8x8.com</div>
+          <div class="cc-tags"><span class="cc-tag tag-cam">8x8 CAM</span></div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="sidebar-section">
+        <div class="ss-label">Customer Contact</div>
+        <div class="contact-card">
+          <div class="cc-name">Carl Motts</div>
+          <div class="cc-title">Contact — Sequel Insurance Agencies</div>
+          <div class="cc-detail">
+            carl.motts@sequelagencies.com<br/>
+            (603) 430-0055<br/>
+            234 Lafayette Rd, Hampton, NH<br/><br/>
+            <em>No prior conversations — this is the first touchpoint.</em>
+          </div>
+          <div class="cc-tags">
+            <span class="cc-tag tag-netnew">First Contact</span>
+            <span class="cc-tag tag-confirm">Role — Confirm</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8x8 Team -->
+      <div class="sidebar-section">
+        <div class="ss-label">8x8 Team</div>
+        <div class="ss-row"><span class="ss-key">AE</span><span class="ss-val">Dustin Moya</span></div>
+        <div class="ss-row"><span class="ss-key">CAM</span><span class="ss-val">Tricia Amato</span></div>
+        <div class="ss-row"><span class="ss-key">SE</span><span class="ss-val">TBD</span></div>
+      </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- ROW 1: Company + Current State -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">🏢</span>
+            <span class="is-title">Company Background</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>Sequel Insurance Agencies</strong> is SIAA's retail entity — launched in 2025 as a succession and growth vehicle for independent agencies within the SIAA network</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>SIAA</strong> is the nation's largest alliance of independent insurance agencies — 5,200+ member agencies writing over <strong>$17 billion</strong> in total premium nationally</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Headquartered at 234 Lafayette Rd, Hampton, NH — same address as SIAA national HQ</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Sequel is a <strong>new and rapidly scaling entity</strong> — 150 users today, targeting 400+ by EOY. This is a growth story first, a replacement second</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Parent company SIAA is a separate but adjacent opportunity — partner noted a possible play. Win Sequel first, then let it open naturally</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Carl Motts is the named contact — his title and decision-making authority should be confirmed on the first call</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header dark">
+            <span class="is-icon">🖥️</span>
+            <span class="is-title">What We Know From the Deal Reg</span>
+          </div>
+          <div class="is-body">
+            <div class="tech-row">
+              <span class="tech-pill pill-rc">RingCentral</span>
+              <span class="tech-pill pill-neutral">Other (Unknown)</span>
+              <span class="tech-pill pill-teams">Microsoft Teams</span>
+              <span class="tech-pill pill-warning">SMS Required</span>
+            </div>
+            <div class="stat-row">
+              <div class="stat-box highlight">
+                <div class="stat-num">150</div>
+                <div class="stat-label">Users Today</div>
+              </div>
+              <div class="stat-box growth-box">
+                <div class="stat-num">400+</div>
+                <div class="stat-label">By Year End</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">2x+</div>
+                <div class="stat-label">Growth Rate</div>
+              </div>
+            </div>
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot dark"></div>RingCentral confirmed as primary incumbent — secondary solution is unknown, needs clarifying</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>Teams in use now for collaboration — integration or coexistence model to be determined</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>SMS is a stated requirement — use case not yet defined, must be uncovered on first call</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>Deal logged at $1,911/mo — confirm if this reflects 150 users at current pricing or if it needs revisiting for growth</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>No budget confirmed in deal reg — needs to be established in discovery</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: 8x8 Fit + RC Displacement -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header lime">
+            <span class="is-icon">✅</span>
+            <span class="is-title">Why 8x8 Wins This</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>RingCentral displacement</strong> — 8x8 wins RC deals regularly. Common RC pain: reliability issues, admin complexity, price increases at renewal, poor support. Probe for these on the first call</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Teams integration</strong> — native Direct Routing + 8x8 widget inside Teams. They stay in Teams, 8x8 powers the back end. No workflow disruption</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>SMS built in</strong> — business SMS/MMS included on X1 and above. No bolt-on or separate contract needed</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Scales cleanly</strong> — 150 → 400+ without renegotiating. 8x8's licensing model is built for exactly this kind of growth</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Single platform</strong> — UCaaS today, CCaaS pathway available if Sequel's needs evolve as they scale</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Insurance vertical experience</strong> — compliance-ready (SOC2, HIPAA), strong FinServ/insurance customer base</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>SIAA parent opportunity</strong> — 5,200 agencies writing $17B in premium. Win Sequel well and that conversation opens on its own</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header slate">
+            <span class="is-icon">💬</span>
+            <span class="is-title">RC Displacement — Position Based on What You Hear</span>
+          </div>
+          <div class="is-body">
+            <div class="tp-row">
+              <div class="tp-if">"RC reliability has been an issue"</div>
+              <div class="tp-then"><strong>99.999% financially-backed SLA</strong> — if 8x8 goes down, you get money back. We back it in the contract.</div>
+            </div>
+            <div class="tp-row">
+              <div class="tp-if">"RC admin is complicated"</div>
+              <div class="tp-then"><strong>8x8 Admin Console</strong> — web-based, intuitive, make changes in minutes. One place for everything.</div>
+            </div>
+            <div class="tp-row">
+              <div class="tp-if">"RC keeps raising our price"</div>
+              <div class="tp-then"><strong>Transparent, scalable pricing</strong> — no surprise renewals. Built to grow with you, not to squeeze you at contract time.</div>
+            </div>
+            <div class="tp-row">
+              <div class="tp-if">"RC Teams integration isn't great"</div>
+              <div class="tp-then"><strong>Native Direct Routing</strong> — 8x8 is built for Teams. Your team stays in Teams, we handle everything underneath it.</div>
+            </div>
+            <div class="tp-row">
+              <div class="tp-if">"RC support is hard to reach"</div>
+              <div class="tp-then"><strong>8x8 support + Norstar Networks</strong> — partner-supported deal, you have a direct line to both. Not a 1-800 call center.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 3: Agenda + Questions -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">📅</span>
+            <span class="is-title">First Call Agenda — 30 Min</span>
+          </div>
+          <div class="is-body">
+            <div class="agenda-item">
+              <div class="agenda-num">1</div>
+              <div style="flex:1;">Intro — Dustin + 8x8 in one sentence, acknowledge Drew at Norstar, set the tone</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">2</div>
+              <div style="flex:1;">Give Carl the floor — "Tell me what prompted the conversation around your phone system"</div>
+              <div class="agenda-time">8 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">3</div>
+              <div style="flex:1;">Current state — RC setup, Teams usage, second platform, SMS use case</div>
+              <div class="agenda-time">8 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">4</div>
+              <div style="flex:1;">Growth conversation — confirm 400 user target, how they want to structure for scale</div>
+              <div class="agenda-time">5 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">5</div>
+              <div style="flex:1;">8x8 high-level fit — 2 minutes max, tied directly to what Carl just said</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">6</div>
+              <div style="flex:1;">Next steps — schedule discovery deep-dive + demo with right people</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header purple">
+            <span class="is-icon">❓</span>
+            <span class="is-title">Key Discovery Questions</span>
+          </div>
+          <div class="is-body">
+            <div class="q-item">
+              <div class="q-num">Q1 — Open Door</div>
+              "Tell me what prompted the conversation around your phone system — what's been driving the need to look at something new?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q2 — RC Pain</div>
+              "You're on RingCentral today — what's been the main frustration that's got you evaluating alternatives?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q3 — Second Platform</div>
+              "The deal reg mentioned RingCentral plus another solution — what's the second platform and does that go away too or is it staying?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q4 — Teams Integration</div>
+              "You're using Teams now — is the goal to work inside Teams for calls going forward, or are you open to a separate app alongside it?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q5 — SMS Use Case</div>
+              "SMS was flagged as a need — can you walk me through how you'd use it? Agent-to-client texting, internal comms, something else?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q6 — Growth</div>
+              "The notes mention 400+ users by year end — how confident is that number, and how do you want to structure this so you're not renegotiating the whole deal in 6 months?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q7 — Decision</div>
+              "For a decision like this — who's involved in the process and what does approval look like on your end?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q8 — SIAA</div>
+              "The notes also flagged a potential interest at the SIAA level — is that something worth exploring separately down the road, or is the focus purely on Sequel right now?"
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 4: Flags -->
+      <div class="info-section">
+        <div class="is-header dark">
+          <span class="is-icon">🚩</span>
+          <span class="is-title">Flags & Watch Items</span>
+        </div>
+        <div class="is-body" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div class="flag-item big">
+            <span class="flag-icon">📈</span>
+            <div><strong>Size for 400, not 150.</strong> Deal logged at 150 but year-end target is 400+. Structure the conversation and eventual proposal around growth or you'll be back at the table in 6 months.</div>
+          </div>
+          <div class="flag-item big">
+            <span class="flag-icon">🏢</span>
+            <div><strong>SIAA parent company upside.</strong> 5,200 agencies, $17B in premium nationally. Don't push it on call one — win Sequel first and let it open naturally.</div>
+          </div>
+          <div class="flag-item warn">
+            <span class="flag-icon">🚩</span>
+            <div><strong>Carl's role is unconfirmed.</strong> He's the named contact but his title and decision-making authority aren't in the deal reg. Confirm on the first call — is he the EB or does someone else need to be in the room?</div>
+          </div>
+          <div class="flag-item warn">
+            <span class="flag-icon">🚩</span>
+            <div><strong>Second platform unknown.</strong> RC is confirmed but there's another solution in play. Find out what it is — could affect porting, migration timeline, and scope.</div>
+          </div>
+          <div class="flag-item warn">
+            <span class="flag-icon">🚩</span>
+            <div><strong>Deal value needs validating.</strong> $1,911/mo at 150 users = ~$12.74/user. Confirm what license tier was assumed and whether SMS and growth are factored in.</div>
+          </div>
+          <div class="flag-item warn">
+            <span class="flag-icon">🚩</span>
+            <div><strong>Confirm Drew Morcom's role on the first call.</strong> Is Norstar Networks attending? All follow-up and demo scheduling should include the partner.</div>
+          </div>
+          <div class="flag-item good">
+            <span class="flag-icon">✅</span>
+            <div><strong>No competing vendors beyond RC.</strong> Clean slate — no one else is in the conversation. Get to discovery and demo quickly before the field opens up.</div>
+          </div>
+          <div class="flag-item good">
+            <span class="flag-icon">✅</span>
+            <div><strong>June 30 close date is real.</strong> Sequel is a new entity moving fast — they have motivation to get this done before mid-year. Use the timeline as a natural urgency driver.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="slide-footer">
+    <div class="fl">8x8, Inc. — Confidential · Sequel Insurance Agencies Pre-Call Brief · Do Not Distribute</div>
+    <div class="fr">
+      <div class="fi"><div class="fi-l">Partner</div><div class="fi-v">Norstar Networks · Intelisys</div></div>
+      <div class="fi"><div class="fi-l">Recommended License</div><div class="fi-v">X1 / X2 · Size for 400</div></div>
+      <div class="fi"><div class="fi-l">Target Close</div><div class="fi-v">June 30, 2026</div></div>
+      <div class="fi"><div class="fi-l">AE</div><div class="fi-v">Dustin Moya</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
