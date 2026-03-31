@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dustin Moya — 8x8 Sales Docs</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#d6d2cb; min-height:100vh; padding:32px 20px;
+  }
+
+  .header {
+    display:flex; justify-content:space-between; align-items:center;
+    max-width:900px; margin:0 auto 28px;
+  }
+  .logo { font-size:26px; font-weight:900; color:#111; letter-spacing:-1px; }
+  .header-right { text-align:right; }
+  .header-title { font-size:15px; font-weight:700; color:#111; }
+  .header-sub { font-size:11px; color:#777; margin-top:2px; }
+
+  .search-bar {
+    max-width:900px; margin:0 auto 20px;
+    display:flex; gap:10px; align-items:center;
+  }
+  .search-input {
+    flex:1; padding:10px 16px; border-radius:8px;
+    border:1.5px solid #ccc; font-size:12px; font-family:inherit;
+    background:white; outline:none; transition:border-color 0.2s;
+  }
+  .search-input:focus { border-color:#008486; }
+  .filter-btn {
+    padding:9px 16px; border-radius:8px; border:1.5px solid #ccc;
+    background:white; font-size:11px; font-weight:600; color:#555;
+    cursor:pointer; transition:all 0.2s; font-family:inherit;
+  }
+  .filter-btn:hover { border-color:#008486; color:#008486; }
+  .filter-btn.active { background:#008486; color:white; border-color:#008486; }
+
+  .deals-container { max-width:900px; margin:0 auto; }
+
+  .section-label {
+    font-size:9px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.8px; color:#888; margin-bottom:10px; padding-left:2px;
+  }
+
+  .deal-card {
+    background:white; border-radius:10px; padding:16px 18px;
+    margin-bottom:10px; box-shadow:0 1px 4px rgba(0,0,0,0.08);
+    display:flex; align-items:center; gap:14px;
+    border-left:4px solid #008486; transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .deal-card:hover { transform:translateX(2px); box-shadow:0 2px 8px rgba(0,0,0,0.12); }
+  .deal-card.map { border-left-color:#1a9e9e; }
+  .deal-card.value-map { border-left-color:#C9DC4F; }
+  .deal-card.inactive { border-left-color:#ddd; opacity:0.7; }
+
+  .deal-icon {
+    width:38px; height:38px; border-radius:8px; background:#f4f2ec;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; flex-shrink:0;
+  }
+
+  .deal-info { flex:1; }
+  .deal-company { font-size:13px; font-weight:700; color:#111; margin-bottom:2px; }
+  .deal-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:4px; }
+  .deal-type {
+    font-size:9px; font-weight:700; padding:2px 8px; border-radius:8px;
+    text-transform:uppercase; letter-spacing:0.3px;
+  }
+  .type-brief { background:#e6f4f4; color:#008486; border:1px solid #b3dede; }
+  .type-map { background:#e6f9f9; color:#1a9e9e; border:1px solid #b3e8e8; }
+  .type-valuemap { background:#f4f9e0; color:#7a9200; border:1px solid #d8e8a0; }
+  .deal-stage {
+    font-size:9px; font-weight:600; color:#888;
+    background:#f4f2ec; padding:2px 8px; border-radius:8px;
+    border:1px solid #e0ddd6;
+  }
+  .deal-date { font-size:10px; color:#aaa; }
+
+  .deal-url {
+    font-size:10px; color:#aaa; font-family:monospace;
+    margin-top:4px; white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; max-width:400px;
+  }
+
+  .deal-actions { display:flex; gap:8px; flex-shrink:0; }
+  .btn {
+    padding:7px 14px; border-radius:7px; font-size:11px; font-weight:600;
+    cursor:pointer; transition:all 0.2s; font-family:inherit; border:none;
+    display:flex; align-items:center; gap:5px; white-space:nowrap;
+  }
+  .btn-open { background:#008486; color:white; }
+  .btn-open:hover { background:#006668; }
+  .btn-copy { background:#f4f2ec; color:#444; border:1.5px solid #ddd; }
+  .btn-copy:hover { background:#e6f4f4; color:#008486; border-color:#008486; }
+  .btn-copy.copied { background:#d1e7dd; color:#0a6640; border-color:#b3deb8; }
+
+  /* Add deal section */
+  .add-section {
+    max-width:900px; margin:24px auto 0;
+    background:white; border-radius:10px; padding:16px 18px;
+    border:2px dashed #ccc; text-align:center;
+  }
+  .add-title { font-size:12px; font-weight:700; color:#888; margin-bottom:4px; }
+  .add-sub { font-size:11px; color:#aaa; }
+
+  /* Stats bar */
+  .stats-bar {
+    max-width:900px; margin:0 auto 20px;
+    display:flex; gap:10px;
+  }
+  .stat-pill {
+    background:white; border-radius:8px; padding:8px 14px;
+    font-size:11px; font-weight:600; color:#555;
+    box-shadow:0 1px 3px rgba(0,0,0,0.07);
+    display:flex; align-items:center; gap:6px;
+  }
+  .stat-dot { width:8px; height:8px; border-radius:50%; }
+
+  .toast {
+    position:fixed; bottom:24px; right:24px;
+    background:#008486; color:white; padding:10px 18px;
+    border-radius:8px; font-size:12px; font-weight:600;
+    opacity:0; transition:opacity 0.3s; pointer-events:none;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  }
+  .toast.show { opacity:1; }
+
+  .no-results {
+    text-align:center; padding:40px; color:#aaa;
+    font-size:13px; display:none;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">8x8</div>
+  <div class="header-right">
+    <div class="header-title">Dustin Moya — Sales Docs Hub</div>
+    <div class="header-sub">Cloud Communications Advisor &nbsp;·&nbsp; West Coast Commercial</div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-pill"><div class="stat-dot" style="background:#008486;"></div> <span id="total-count">0</span> Total Docs</div>
+  <div class="stat-pill"><div class="stat-dot" style="background:#008486;"></div> <span id="brief-count">0</span> Briefs</div>
+  <div class="stat-pill"><div class="stat-dot" style="background:#1a9e9e;"></div> <span id="map-count">0</span> MAPs</div>
+  <div class="stat-pill"><div class="stat-dot" style="background:#C9DC4F;"></div> <span id="vm-count">0</span> Value Maps</div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <input class="search-input" type="text" placeholder="Search by company name..." oninput="filterDeals(this.value)" id="search"/>
+  <button class="filter-btn active" onclick="filterType('all', this)">All</button>
+  <button class="filter-btn" onclick="filterType('brief', this)">Briefs</button>
+  <button class="filter-btn" onclick="filterType('map', this)">MAPs</button>
+  <button class="filter-btn" onclick="filterType('value-map', this)">Value Maps</button>
+</div>
+
+<!-- DEALS -->
+<div class="deals-container" id="deals-container">
+  <div class="section-label">Active Deals</div>
+</div>
+
+<div class="no-results" id="no-results">No docs found matching your search.</div>
+
+<!-- ADD SECTION -->
+<div class="add-section">
+  <div class="add-title">📁 Adding a new doc?</div>
+  <div class="add-sub">Upload the HTML file to your GitHub repo with the format: <strong>company-name-brief.html</strong> · <strong>company-name-map.html</strong> · <strong>company-name-value-map.html</strong><br/>Then update this index and re-upload it.</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Link copied to clipboard!</div>
+
+<script>
+  const BASE_URL = 'https://dustinmoya17.github.io/8x8-Sales-Docs/';
+
+  const deals = [
+    {
+      company: 'Sequel Insurance Agencies',
+      type: 'brief',
+      file: 'sequel-insurance-brief.html',
+      stage: 'Stage 1 — Qualify',
+      date: 'Mar 2026',
+      icon: '🏦',
+      notes: 'RingCentral displacement · 150 → 400 users · SMS needed · Close June 30'
+    },
+    {
+      company: 'MMG Insurance',
+      type: 'brief',
+      file: 'mmg-insurance-brief.html',
+      stage: 'Stage 1 — Qualify',
+      date: 'Mar 2026',
+      icon: '🏛️',
+      notes: 'CCaaS eval · Avaya Aura · 100 concurrent agents · $200K budget · Partner: Altera / Avant'
+    },
+    {
+      company: 'Debner',
+      type: 'brief',
+      file: 'debner-brief.html',
+      stage: 'Stage 1 — Qualify',
+      date: 'Mar 2026',
+      icon: '🪑',
+      notes: 'UCaaS · Teams integration · ~60 users · VAR: PeakUpTime · First call Monday'
+    },
+    {
+      company: 'Washington School House',
+      type: 'brief',
+      file: 'washington-school-house-brief.html',
+      stage: 'Stage 1 — Qualify',
+      date: 'Mar 2026',
+      icon: '🏨',
+      notes: 'X1 · 2 users · Front desk replacement · Go-live April 8 · Partner: Innovative Telecom'
+    },
+    {
+      company: 'Washington School House',
+      type: 'value-map',
+      file: 'washington-school-house-value-map.html',
+      stage: 'Stage 1 — Qualify',
+      date: 'Mar 2026',
+      icon: '🏨',
+      notes: 'Value Map · X1 · 2 users'
+    },
+    {
+      company: 'Pleasant Valley School District',
+      type: 'brief',
+      file: 'pleasant-valley-sd-brief.html',
+      stage: 'Stage 1 — Qualify',
+      date: 'Mar 2026',
+      icon: '🏫',
+      notes: 'ShoreTel > Mitel EOL · Budget pending · July fiscal year · Partner: Adam Skinner'
+    },
+    {
+      company: 'Savillex',
+      type: 'map',
+      file: 'savillex-map.html',
+      stage: 'Stage 2 — Problem',
+      date: 'Mar 2026',
+      icon: '🔬',
+      notes: 'Teams DR + OC · ~70 users · Loffler partner · Scoping April 7'
+    },
+    {
+      company: 'Greenstone FCS',
+      type: 'map',
+      file: 'greenstone-fcs-map.html',
+      stage: 'Stage 2 — Problem',
+      date: 'Mar 2026',
+      icon: '💰',
+      notes: '8x8 Engage · FreshCaller replacement · ~9 agents · Teams + Fusion Connect'
+    }
+  ];
+
+  let currentFilter = 'all';
+
+  function typeLabel(type) {
+    if(type === 'brief') return '<span class="deal-type type-brief">Brief</span>';
+    if(type === 'map') return '<span class="deal-type type-map">MAP</span>';
+    if(type === 'value-map') return '<span class="deal-type type-valuemap">Value Map</span>';
+    return '';
+  }
+
+  function renderDeals(list) {
+    const container = document.getElementById('deals-container');
+    const noResults = document.getElementById('no-results');
+    container.innerHTML = '<div class="section-label">Active Deals</div>';
+
+    if(list.length === 0) {
+      noResults.style.display = 'block';
+      return;
+    }
+    noResults.style.display = 'none';
+
+    list.forEach(deal => {
+      const url = BASE_URL + deal.file;
+      const card = document.createElement('div');
+      card.className = `deal-card ${deal.type}`;
+      card.dataset.type = deal.type;
+      card.dataset.company = deal.company.toLowerCase();
+      card.innerHTML = `
+        <div class="deal-icon">${deal.icon}</div>
+        <div class="deal-info">
+          <div class="deal-company">${deal.company}</div>
+          <div class="deal-meta">
+            ${typeLabel(deal.type)}
+            <span class="deal-stage">${deal.stage}</span>
+            <span class="deal-date">${deal.date}</span>
+          </div>
+          <div class="deal-url">${url}</div>
+          <div style="font-size:10.5px;color:#888;margin-top:3px;">${deal.notes}</div>
+        </div>
+        <div class="deal-actions">
+          <button class="btn btn-open" onclick="window.open('${url}','_blank')">↗ Open</button>
+          <button class="btn btn-copy" onclick="copyLink('${url}', this)">📋 Copy Link</button>
+        </div>`;
+      container.appendChild(card);
+    });
+
+    updateStats(list);
+  }
+
+  function updateStats(list) {
+    document.getElementById('total-count').textContent = deals.length;
+    document.getElementById('brief-count').textContent = deals.filter(d => d.type === 'brief').length;
+    document.getElementById('map-count').textContent = deals.filter(d => d.type === 'map').length;
+    document.getElementById('vm-count').textContent = deals.filter(d => d.type === 'value-map').length;
+  }
+
+  function filterDeals(query) {
+    let filtered = deals;
+    if(currentFilter !== 'all') filtered = filtered.filter(d => d.type === currentFilter);
+    if(query.trim()) filtered = filtered.filter(d => d.company.toLowerCase().includes(query.toLowerCase().trim()));
+    renderDeals(filtered);
+  }
+
+  function filterType(type, btn) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterDeals(document.getElementById('search').value);
+  }
+
+  function copyLink(url, btn) {
+    navigator.clipboard.writeText(url).then(() => {
+      btn.textContent = '✅ Copied!';
+      btn.classList.add('copied');
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        btn.textContent = '📋 Copy Link';
+        btn.classList.remove('copied');
+        toast.classList.remove('show');
+      }, 2000);
+    });
+  }
+
+  renderDeals(deals);
+</script>
+</body>
+</html>
