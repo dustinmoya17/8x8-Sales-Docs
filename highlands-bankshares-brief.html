@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>8x8 — Highlands Bankshares Call Brief</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#d6d2cb; min-height:100vh;
+    padding:20px 16px; display:flex; flex-direction:column; align-items:center;
+  }
+  .toolbar { display:flex; justify-content:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center; }
+  .tool-btn { padding:7px 18px; border-radius:20px; border:1.5px solid #111; background:white; color:#111; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .tool-btn:hover { background:#f5f5f5; }
+
+  .slide { width:1100px; background:#EAE9E1; border-radius:10px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.15); }
+
+  .header { display:flex; justify-content:space-between; align-items:center; padding:13px 28px; border-bottom:1.5px solid #bbb; background:#EAE9E1; }
+  .logo { font-size:22px; font-weight:900; color:#111; letter-spacing:-1px; }
+  .hdr-center { text-align:center; }
+  .hdr-title { font-size:14px; font-weight:700; color:#111; }
+  .hdr-sub { font-size:10px; color:#888; margin-top:2px; }
+  .hdr-right { text-align:right; }
+  .hdr-badge { font-size:10px; font-weight:700; background:#008486; color:white; padding:4px 12px; border-radius:12px; display:inline-block; margin-bottom:3px; }
+  .hdr-badge.mitel { background:#c0622a; margin-left:6px; }
+  .hdr-date { font-size:10px; color:#aaa; margin-top:3px; }
+
+  .mitel-banner { background:#c0622a; padding:9px 28px; display:flex; align-items:center; gap:10px; font-size:11px; font-weight:700; color:white; }
+
+  .body { display:flex; min-height:720px; }
+
+  .left-sidebar { width:255px; flex-shrink:0; border-right:1px solid #ccc; display:flex; flex-direction:column; }
+  .sidebar-section { padding:15px 18px; border-bottom:1px solid #ddd; }
+  .sidebar-section:last-child { border-bottom:none; flex:1; }
+  .ss-label { font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.7px; color:#aaa; margin-bottom:9px; }
+  .ss-row { display:flex; justify-content:space-between; align-items:flex-start; padding:5px 0; border-bottom:1px solid #e8e5de; gap:8px; }
+  .ss-row:last-child { border-bottom:none; }
+  .ss-key { font-size:10px; color:#888; flex-shrink:0; }
+  .ss-val { font-size:11px; font-weight:600; color:#222; text-align:right; line-height:1.4; }
+  .ss-val.teal { color:#008486; }
+  .ss-val.amber { color:#c0622a; }
+  .ss-val.green { color:#0a6640; }
+
+  .contact-card { background:white; border-radius:7px; padding:10px 12px; margin-bottom:7px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+  .contact-card:last-child { margin-bottom:0; }
+  .cc-name { font-size:12px; font-weight:700; color:#111; margin-bottom:2px; }
+  .cc-title { font-size:10px; color:#008486; font-weight:600; margin-bottom:4px; }
+  .cc-detail { font-size:10px; color:#777; line-height:1.6; }
+  .cc-tags { margin-top:5px; display:flex; flex-wrap:wrap; gap:4px; }
+  .cc-tag { font-size:8.5px; font-weight:700; padding:2px 7px; border-radius:8px; display:inline-block; }
+  .tag-confirm { background:#fff3cd; color:#856404; border:1px solid #f0d58c; }
+  .tag-partner { background:#f0ede6; color:#666; border:1px solid #ddd; }
+  .tag-tsd { background:#111; color:white; }
+  .tag-netnew { background:#C9DC4F; color:#333; }
+  .tag-ref { background:#e6f4f4; color:#008486; border:1px solid #b3dede; }
+
+  .main-content { flex:1; padding:20px 26px; display:flex; flex-direction:column; gap:16px; }
+
+  .info-section { background:white; border-radius:8px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .is-header { padding:8px 14px; display:flex; align-items:center; gap:8px; }
+  .is-header.teal { background:#008486; }
+  .is-header.dark { background:#111; }
+  .is-header.lime { background:#C9DC4F; }
+  .is-header.slate { background:#4a7a8a; }
+  .is-header.orange { background:#c0622a; }
+  .is-header.purple { background:#6b4fa0; }
+  .is-header.red { background:#c0392b; }
+  .is-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:white; }
+  .is-header.lime .is-title { color:#333; }
+  .is-icon { font-size:13px; }
+  .is-body { padding:12px 14px; }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+
+  .bullet-list { display:flex; flex-direction:column; gap:7px; }
+  .bullet-item { display:flex; align-items:flex-start; gap:8px; font-size:11.5px; color:#333; line-height:1.5; }
+  .b-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+  .b-dot.teal { background:#008486; }
+  .b-dot.dark { background:#111; }
+  .b-dot.lime { background:#9aaa20; }
+  .b-dot.orange { background:#e07b39; }
+  .b-dot.red { background:#c0392b; }
+
+  .tech-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tech-pill { font-size:10.5px; font-weight:600; padding:4px 12px; border-radius:14px; border:1.5px solid; }
+  .pill-mitel { background:#fff0f0; color:#c0392b; border-color:#f5c6c6; }
+  .pill-neutral { background:#f4f2ec; color:#555; border-color:#ddd; }
+  .pill-warning { background:#fff3cd; color:#856404; border-color:#f0d58c; }
+  .pill-stay { background:#f0f0f0; color:#888; border-color:#ccc; border-style:dashed; }
+
+  .flag-item { display:flex; align-items:flex-start; gap:8px; border-radius:6px; padding:8px 10px; font-size:11px; line-height:1.5; margin-bottom:6px; }
+  .flag-item:last-child { margin-bottom:0; }
+  .flag-item.warn { background:#fff8e6; border:1px solid #f0d58c; color:#7a5c00; }
+  .flag-item.good { background:#e8fff0; border:1px solid #b3deb8; color:#0a5c2a; }
+  .flag-item.risk { background:#fff0f0; border:1px solid #f5c6c6; color:#8b0000; }
+  .flag-item.info { background:#e6f4f4; border:1px solid #b3dede; color:#005558; }
+  .flag-icon { font-size:13px; flex-shrink:0; }
+
+  /* Inventory table */
+  .inv-table { width:100%; border-collapse:collapse; }
+  .inv-table thead tr { background:#f0ede6; }
+  .inv-table thead th { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:#666; padding:6px 10px; text-align:left; border-right:1px solid #e8e5de; }
+  .inv-table thead th:last-child { border-right:none; }
+  .inv-table tbody tr { border-bottom:1px solid #f0ede6; }
+  .inv-table tbody tr:last-child { border-bottom:none; }
+  .inv-table tbody tr:hover { background:#faf9f6; }
+  .inv-table tbody td { font-size:11px; color:#333; padding:7px 10px; vertical-align:middle; border-right:1px solid #f0ede6; }
+  .inv-table tbody td:last-child { border-right:none; }
+  .inv-table .sub { font-size:9.5px; color:#888; margin-top:2px; }
+  .badge-8x8 { font-size:9px; font-weight:700; background:#e6f4f4; color:#008486; border:1px solid #b3dede; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+  .badge-stay { font-size:9px; font-weight:700; background:#f4f2ec; color:#888; border:1px solid #ddd; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+  .badge-discuss { font-size:9px; font-weight:700; background:#fff3cd; color:#856404; border:1px solid #f0d58c; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+
+  .stat-row { display:flex; gap:10px; margin-bottom:12px; }
+  .stat-box { flex:1; background:#f4f2ec; border-radius:7px; padding:10px 12px; text-align:center; border:1px solid #e0ddd6; }
+  .stat-box.teal-box { background:#008486; border-color:#008486; }
+  .stat-num { font-size:20px; font-weight:900; color:#008486; line-height:1.1; }
+  .stat-box.teal-box .stat-num { color:white; }
+  .stat-label { font-size:9px; color:#888; text-transform:uppercase; letter-spacing:0.4px; margin-top:3px; }
+  .stat-box.teal-box .stat-label { color:rgba(255,255,255,0.75); }
+
+  .agenda-item { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #f0ede6; font-size:11.5px; color:#333; }
+  .agenda-item:last-child { border-bottom:none; }
+  .agenda-num { width:22px; height:22px; border-radius:50%; background:#008486; color:white; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .agenda-time { font-size:10px; color:#aaa; min-width:40px; text-align:right; flex-shrink:0; }
+
+  .q-item { padding:7px 0; border-bottom:1px solid #f0ede6; font-size:11.5px; color:#333; line-height:1.5; }
+  .q-item:last-child { border-bottom:none; }
+  .q-num { font-size:10px; font-weight:700; color:#008486; margin-bottom:2px; }
+
+  .slide-footer { background:white; border-top:1px solid #e0ddd6; padding:9px 28px; display:flex; justify-content:space-between; align-items:center; }
+  .fl { font-size:9.5px; color:#aaa; }
+  .fr { display:flex; gap:20px; }
+  .fi { text-align:right; }
+  .fi-l { font-size:8.5px; color:#bbb; text-transform:uppercase; }
+  .fi-v { font-size:11px; font-weight:600; color:#444; }
+
+  @media print {
+    body { background:white; padding:0; }
+    .toolbar { display:none; }
+    .slide { box-shadow:none; border-radius:0; width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="tool-btn" onclick="window.print()">🖨️ Print / Export PDF</button>
+</div>
+
+<div class="slide">
+
+  <div class="header">
+    <div class="logo">8x8</div>
+    <div class="hdr-center">
+      <div class="hdr-title">Highlands Bankshares — Pre-Call Brief</div>
+      <div class="hdr-sub">Petersburg, WV &nbsp;·&nbsp; UCaaS &nbsp;·&nbsp; 84 Users · 7 Branches &nbsp;·&nbsp; Mitel Migration</div>
+    </div>
+    <div class="hdr-right">
+      <div>
+        <div class="hdr-badge">Net New · First Contact</div>
+        <div class="hdr-badge mitel">Mitel EOL Migration</div>
+      </div>
+      <div class="hdr-date">Prepared by Dustin Moya · 2026</div>
+    </div>
+  </div>
+
+  <div class="mitel-banner">
+    <span>⚠️</span>
+    <span>Currently on <strong>Mitel (ShoreTel heritage)</strong> — platform is end-of-life. This is a full rip-and-replace migration across 7 branch locations in West Virginia. No softphones, no call recording, no cloud today. Clean slate opportunity.</span>
+  </div>
+
+  <div class="body">
+
+    <div class="left-sidebar">
+
+      <div class="sidebar-section">
+        <div class="ss-label">Deal Snapshot</div>
+        <div class="ss-row"><span class="ss-key">Account</span><span class="ss-val">Highlands Bankshares, Inc.</span></div>
+        <div class="ss-row"><span class="ss-key">Subsidiaries</span><span class="ss-val">Grant County Bank · Capon Valley Bank</span></div>
+        <div class="ss-row"><span class="ss-key">HQ</span><span class="ss-val">Petersburg, WV</span></div>
+        <div class="ss-row"><span class="ss-key">Branches</span><span class="ss-val teal">7 (WV + VA)</span></div>
+        <div class="ss-row"><span class="ss-key">Users</span><span class="ss-val teal">84 (100 extensions)</span></div>
+        <div class="ss-row"><span class="ss-key">Phones</span><span class="ss-val">94 desk phones</span></div>
+        <div class="ss-row"><span class="ss-key">Incumbent</span><span class="ss-val amber">Mitel (EOL)</span></div>
+        <div class="ss-row"><span class="ss-key">Carrier</span><span class="ss-val amber">Shentel PRI · 20 DIDs</span></div>
+        <div class="ss-row"><span class="ss-key">Softphones</span><span class="ss-val">None today</span></div>
+        <div class="ss-row"><span class="ss-key">Call Recording</span><span class="ss-val amber">Not enabled</span></div>
+        <div class="ss-row"><span class="ss-key">Budget</span><span class="ss-val amber">Not confirmed</span></div>
+        <div class="ss-row"><span class="ss-key">Customer Contact</span><span class="ss-val amber">Not provided — confirm</span></div>
+        <div class="ss-row"><span class="ss-key">Stage</span><span class="ss-val">1 — Qualify</span></div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="ss-label">Channel</div>
+        <div class="contact-card">
+          <div class="cc-name">Telarus</div>
+          <div class="cc-title">TSD / Master Agent</div>
+          <div class="cc-tags"><span class="cc-tag tag-tsd">Master Agent</span></div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-name">Alicia Breen-Harris</div>
+          <div class="cc-title">IQ Wired</div>
+          <div class="cc-detail">Sub-Agent · Submitted deal reg</div>
+          <div class="cc-tags"><span class="cc-tag tag-partner">Sub-Agent</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="ss-label">Known Internal Refs</div>
+        <div class="contact-card">
+          <div class="cc-name">George L. Ford</div>
+          <div class="cc-title">President & CEO — Grant County Bank</div>
+          <div class="cc-detail">Also Highlands Bankshares Treasurer.<br/>Referenced in deal notes as "George"<br/>— likely a key stakeholder.</div>
+          <div class="cc-tags"><span class="cc-tag tag-ref">Likely Stakeholder</span><span class="cc-tag tag-confirm">Confirm via Partner</span></div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-name">"Jeff"</div>
+          <div class="cc-title">Referenced in notes — role unknown</div>
+          <div class="cc-detail">Mentioned alongside George re: call recording decisions. Confirm full name and title.</div>
+          <div class="cc-tags"><span class="cc-tag tag-confirm">Confirm Identity</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="ss-label">8x8 Team</div>
+        <div class="ss-row"><span class="ss-key">AE</span><span class="ss-val">Dustin Moya</span></div>
+        <div class="ss-row"><span class="ss-key">SE</span><span class="ss-val">TBD</span></div>
+        <div class="ss-row"><span class="ss-key">Partner</span><span class="ss-val">IQ Wired / Alicia</span></div>
+      </div>
+
+    </div>
+
+    <div class="main-content">
+
+      <!-- ROW 1: Company + Environment -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">🏦</span>
+            <span class="is-title">Company Background</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>Highlands Bankshares, Inc.</strong> (OTC: HBSI) — publicly traded bank holding company founded 1984, headquartered in Petersburg, WV</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Operates <strong>two subsidiary banks</strong> — The Grant County Bank (7 branches, WV) and Capon Valley Bank (WV + VA locations)</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Grant County Bank chartered in <strong>1902</strong> — 120+ year old community bank serving the Potomac Highlands region</div>
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>~$337M in assets</strong> — stable, FDIC-insured community bank serving Grant, Hardy, Hampshire, Mineral, Pendleton, Randolph & Tucker counties</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>7 branch locations: Petersburg (HQ), Moorefield, Keyser, Riverton, Harman, Davis, Canaan Valley</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Services include personal/business banking, loans, debit/credit, mobile banking, remote deposit capture, wire transfers</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header dark">
+            <span class="is-icon">🖥️</span>
+            <span class="is-title">Current Environment</span>
+          </div>
+          <div class="is-body">
+            <div class="tech-row">
+              <span class="tech-pill pill-mitel">Mitel System (EOL)</span>
+              <span class="tech-pill pill-neutral">Shentel PRI</span>
+              <span class="tech-pill pill-neutral">No Softphones</span>
+              <span class="tech-pill pill-warning">No Call Recording</span>
+              <span class="tech-pill pill-stay">POTS Lines (Stay)</span>
+            </div>
+            <div class="stat-row">
+              <div class="stat-box teal-box"><div class="stat-num">84</div><div class="stat-label">UCaaS Users</div></div>
+              <div class="stat-box"><div class="stat-num">100</div><div class="stat-label">Extensions</div></div>
+              <div class="stat-box"><div class="stat-num">94</div><div class="stat-label">Desk Phones</div></div>
+              <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Branches</div></div>
+            </div>
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot dark"></div>On-prem Mitel — end-of-life platform, no cloud, no softphones, no call recording</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>Shentel PRI providing 20 DIDs at main office — additional branch numbers TBD</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>16 hunt groups + 3 route points (Fiserv After Hours, Debit Fraud, Lost Debit Card) → external call centers, not internal agents</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>8 auto attendants configured — only 1 active with scheduling</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>15 analog POTS lines remaining (alarms, cash advance, elevator) — <strong>these stay on POTS, not moving to 8x8</strong></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: Full Inventory Table -->
+      <div class="info-section">
+        <div class="is-header slate">
+          <span class="is-icon">📋</span>
+          <span class="is-title">Infrastructure Inventory — What Moves, What Stays</span>
+        </div>
+        <div class="is-body" style="padding:0;">
+          <table class="inv-table">
+            <thead>
+              <tr>
+                <th style="width:30%">Item</th>
+                <th style="width:20%">Count</th>
+                <th style="width:22%">Detail</th>
+                <th style="width:28%">8x8 Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>UCaaS Users</strong></td>
+                <td>84 users / 100 extensions</td>
+                <td>From user access matrix</td>
+                <td><span class="badge-8x8">→ 8x8 Licenses</span></td>
+              </tr>
+              <tr>
+                <td><strong>Basic Desk Phones</strong></td>
+                <td>78 Mitel IP480</td>
+                <td>Standard phones</td>
+                <td><span class="badge-8x8">→ Replace or softphone</span></td>
+              </tr>
+              <tr>
+                <td><strong>Executive Phones</strong></td>
+                <td>16 Mitel 6940</td>
+                <td>Color screen phones</td>
+                <td><span class="badge-8x8">→ Replace w/ equiv.</span></td>
+              </tr>
+              <tr>
+                <td><strong>Receptionist Phones</strong></td>
+                <td>2 IP480 + Sidecar</td>
+                <td>Main branch only</td>
+                <td><span class="badge-8x8">→ X4 + Frontdesk</span></td>
+              </tr>
+              <tr>
+                <td><strong>Hunt Groups</strong></td>
+                <td>16</td>
+                <td>From Mitel Director</td>
+                <td><span class="badge-8x8">→ Ring Groups (8x8)</span></td>
+              </tr>
+              <tr>
+                <td><strong>Route Points</strong></td>
+                <td>3</td>
+                <td>Fiserv, Debit Fraud, Lost Debit → external</td>
+                <td><span class="badge-8x8">→ Auto Attendant routing</span></td>
+              </tr>
+              <tr>
+                <td><strong>Auto Attendants</strong></td>
+                <td>8 configured / 1 active</td>
+                <td>On/Off hours + holiday</td>
+                <td><span class="badge-8x8">→ 8x8 Auto Attendant</span></td>
+              </tr>
+              <tr>
+                <td><strong>DIDs</strong></td>
+                <td>20 (main office)</td>
+                <td>Shentel PRI — port to 8x8</td>
+                <td><span class="badge-8x8">→ Port to 8x8</span></td>
+              </tr>
+              <tr>
+                <td><strong>Fax Lines</strong></td>
+                <td>7 (1 per branch)</td>
+                <td>Traditional fax today</td>
+                <td><span class="badge-8x8">→ 8x8 Digital Fax</span></td>
+              </tr>
+              <tr>
+                <td><strong>Call Recording</strong></td>
+                <td>Not enabled</td>
+                <td>George/Jeff to confirm scope</td>
+                <td><span class="badge-discuss">Discuss — compliance req.</span></td>
+              </tr>
+              <tr>
+                <td><strong>Alarm Lines</strong></td>
+                <td>7 (1 per branch)</td>
+                <td>Analog</td>
+                <td><span class="badge-stay">Stay on POTS</span></td>
+              </tr>
+              <tr>
+                <td><strong>Cash Advance Lines</strong></td>
+                <td>7 (1 per branch)</td>
+                <td>Analog</td>
+                <td><span class="badge-stay">Stay on POTS</span></td>
+              </tr>
+              <tr>
+                <td><strong>Elevator Line</strong></td>
+                <td>1 (Petersburg)</td>
+                <td>Analog</td>
+                <td><span class="badge-stay">Stay on POTS</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ROW 3: Why 8x8 + Flags -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header lime">
+            <span class="is-icon">✅</span>
+            <span class="is-title">Why 8x8 Wins This</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Mitel migration story</strong> — 8x8 has a proven playbook for Mitel/ShoreTel customers. Known platform, familiar feature mapping, smooth transition</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Multi-site management</strong> — 7 branches managed from one admin console. No per-site complexity</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>8x8 Frontdesk</strong> — purpose-built for the 2 receptionist positions with sidecar equivalent. Better than what they have today</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Call recording</strong> — not enabled today but banking compliance will require it. 8x8 makes this simple to turn on — major upgrade from zero capability</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Digital fax built in</strong> — replaces 7 analog fax lines with digital fax included in licensing. Simplifies and reduces cost</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Mobile app</strong> — staff can take calls on mobile without giving out personal numbers. Especially valuable for a 7-branch community bank</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>99.999% SLA</strong> — banks cannot afford downtime. Financially-backed uptime guarantee</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>GLBA/compliance ready</strong> — 8x8 is built for regulated industries including financial services</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header red">
+            <span class="is-icon">🚩</span>
+            <span class="is-title">Flags & Watch Items</span>
+          </div>
+          <div class="is-body">
+            <div class="flag-item risk">
+              <span class="flag-icon">🚩</span>
+              <div><strong>No customer contact provided.</strong> Deal reg has no name, email, or phone for the Highlands contact. First step is getting Alicia (IQ Wired) to confirm who the right person is — likely George Ford (CEO) or an IT/ops lead.</div>
+            </div>
+            <div class="flag-item warn">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Call recording is a compliance conversation.</strong> Banks operating under GLBA should be recording calls. They said "not enabled" — this is both a pain point and a sales opportunity. Bring it up.</div>
+            </div>
+            <div class="flag-item warn">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Full DID inventory unknown.</strong> Only 20 DIDs confirmed at main office via Shentel PRI. 7 branches likely have additional numbers — need full count before quoting porting scope.</div>
+            </div>
+            <div class="flag-item warn">
+              <span class="flag-icon">🚩</span>
+              <div><strong>100 extensions vs 84 users.</strong> Gap of 16 extensions. Confirm which are real users vs. phantom/unused extensions before finalizing license count.</div>
+            </div>
+            <div class="flag-item info">
+              <span class="flag-icon">💡</span>
+              <div><strong>POTS lines stay on analog.</strong> 15 lines (alarms × 7, cash advance × 7, elevator × 1) are NOT moving to 8x8. Make sure this is clear in the proposal so scope is clean.</div>
+            </div>
+            <div class="flag-item info">
+              <span class="flag-icon">💡</span>
+              <div><strong>Fiserv integration to preserve.</strong> 3 route points route to external services (Fiserv After Hours CC, Debit Card Fraud, Lost Debit Card). These are inbound routing flows — need to be replicated in 8x8 auto attendant config.</div>
+            </div>
+            <div class="flag-item good">
+              <span class="flag-icon">✅</span>
+              <div><strong>Clean competitive landscape.</strong> No competing vendors mentioned. Mitel EOL creates natural urgency — they know they have to move, they just need to pick a platform.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 4: Agenda + Questions -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">📅</span>
+            <span class="is-title">Suggested First Call Agenda — 30 Min</span>
+          </div>
+          <div class="is-body">
+            <div class="agenda-item">
+              <div class="agenda-num">1</div>
+              <div style="flex:1;">Intro — Dustin + 8x8, acknowledge IQ Wired referral</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">2</div>
+              <div style="flex:1;">"Walk me through where you are today with the Mitel system and what's driving the need to move"</div>
+              <div class="agenda-time">8 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">3</div>
+              <div style="flex:1;">Validate inventory — confirm users, branches, DID count, device refresh preference</div>
+              <div class="agenda-time">8 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">4</div>
+              <div style="flex:1;">Surface call recording + compliance angle — are they aware of the gap?</div>
+              <div class="agenda-time">5 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">5</div>
+              <div style="flex:1;">8x8 high-level fit — Mitel migration story, multi-site, compliance</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">6</div>
+              <div style="flex:1;">Next steps — demo + proposal, confirm stakeholders</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header purple">
+            <span class="is-icon">❓</span>
+            <span class="is-title">Key Discovery Questions</span>
+          </div>
+          <div class="is-body">
+            <div class="q-item">
+              <div class="q-num">Q1 — Mitel Driver</div>
+              "What's the main thing pushing you off Mitel right now — is it the EOL status, support issues, cost, or something else?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q2 — Timeline</div>
+              "Is there a hard deadline for being off Mitel, or is this more of a 'we know we need to move' situation?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q3 — User Count</div>
+              "You have 84 users in your access matrix but 100 extensions — are those 16 extra extensions live users or unused lines we should clean up?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q4 — Device Strategy</div>
+              "On the phone side — are you looking to keep desk phones, move to softphones, or a mix? Some banks go all-softphone on cloud, others prefer to keep hardware at the branches."
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q5 — Call Recording</div>
+              "You mentioned call recording isn't enabled today — is that a conscious decision or something that just never got set up? I ask because for a bank, there's usually a compliance conversation worth having there."
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q6 — Fiserv Routing</div>
+              "You have 3 route points going to external services — Fiserv, debit fraud, lost debit. Walk me through how those work today so we can make sure they're preserved exactly."
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q7 — Decision Process</div>
+              "Who else is involved in this decision alongside you — is George Ford looped in, or is there an IT team driving this?"
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="fl">8x8, Inc. — Confidential · Highlands Bankshares Pre-Call Brief · Do Not Distribute</div>
+    <div class="fr">
+      <div class="fi"><div class="fi-l">Partner</div><div class="fi-v">IQ Wired (Alicia) · Telarus</div></div>
+      <div class="fi"><div class="fi-l">Recommended</div><div class="fi-v">84× X2 + 2× X4</div></div>
+      <div class="fi"><div class="fi-l">Branches</div><div class="fi-v">7 · WV + VA</div></div>
+      <div class="fi"><div class="fi-l">AE</div><div class="fi-v">Dustin Moya</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
