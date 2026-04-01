@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>8x8 — Hirsch Law Group Call Brief</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI', Arial, sans-serif; background:#d6d2cb; min-height:100vh; padding:20px 16px; display:flex; flex-direction:column; align-items:center; }
+  .toolbar { display:flex; justify-content:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; align-items:center; }
+  .tool-btn { padding:7px 18px; border-radius:20px; border:1.5px solid #111; background:white; color:#111; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .tool-btn:hover { background:#f5f5f5; }
+
+  .slide { width:1100px; background:#EAE9E1; border-radius:10px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.15); }
+
+  .header { display:flex; justify-content:space-between; align-items:center; padding:13px 28px; border-bottom:1.5px solid #bbb; background:#EAE9E1; }
+  .logo { font-size:22px; font-weight:900; color:#111; letter-spacing:-1px; }
+  .hdr-center { text-align:center; }
+  .hdr-title { font-size:14px; font-weight:700; color:#111; }
+  .hdr-sub { font-size:10px; color:#888; margin-top:2px; }
+  .hdr-right { text-align:right; }
+  .hdr-badge { font-size:10px; font-weight:700; background:#008486; color:white; padding:4px 12px; border-radius:12px; display:inline-block; margin-bottom:3px; }
+  .hdr-badge.urgent { background:#c0392b; margin-left:6px; }
+  .hdr-date { font-size:10px; color:#aaa; margin-top:3px; }
+
+  .urgent-banner { background:#c0392b; padding:9px 28px; display:flex; align-items:center; gap:10px; font-size:11px; font-weight:700; color:white; }
+
+  .body { display:flex; min-height:700px; }
+
+  .left-sidebar { width:255px; flex-shrink:0; border-right:1px solid #ccc; display:flex; flex-direction:column; }
+  .sidebar-section { padding:15px 18px; border-bottom:1px solid #ddd; }
+  .sidebar-section:last-child { border-bottom:none; flex:1; }
+  .ss-label { font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.7px; color:#aaa; margin-bottom:9px; }
+  .ss-row { display:flex; justify-content:space-between; align-items:flex-start; padding:5px 0; border-bottom:1px solid #e8e5de; gap:8px; }
+  .ss-row:last-child { border-bottom:none; }
+  .ss-key { font-size:10px; color:#888; flex-shrink:0; }
+  .ss-val { font-size:11px; font-weight:600; color:#222; text-align:right; line-height:1.4; }
+  .ss-val.teal { color:#008486; }
+  .ss-val.amber { color:#c0622a; }
+  .ss-val.green { color:#0a6640; }
+  .ss-val.red { color:#c0392b; }
+
+  .contact-card { background:white; border-radius:7px; padding:10px 12px; margin-bottom:7px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+  .contact-card:last-child { margin-bottom:0; }
+  .cc-name { font-size:12px; font-weight:700; color:#111; margin-bottom:2px; }
+  .cc-title { font-size:10px; color:#008486; font-weight:600; margin-bottom:4px; }
+  .cc-detail { font-size:10px; color:#777; line-height:1.6; }
+  .cc-tags { margin-top:5px; display:flex; flex-wrap:wrap; gap:4px; }
+  .cc-tag { font-size:8.5px; font-weight:700; padding:2px 7px; border-radius:8px; display:inline-block; }
+  .tag-champion { background:#e6f4f4; color:#008486; border:1px solid #b3dede; }
+  .tag-confirm { background:#fff3cd; color:#856404; border:1px solid #f0d58c; }
+  .tag-partner { background:#f0ede6; color:#666; border:1px solid #ddd; }
+  .tag-urgent { background:#fff0f0; color:#c0392b; border:1px solid #f5c6c6; }
+  .tag-eb { background:#008486; color:white; }
+
+  .main-content { flex:1; padding:20px 26px; display:flex; flex-direction:column; gap:16px; }
+
+  .info-section { background:white; border-radius:8px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .is-header { padding:8px 14px; display:flex; align-items:center; gap:8px; }
+  .is-header.teal { background:#008486; }
+  .is-header.dark { background:#111; }
+  .is-header.lime { background:#C9DC4F; }
+  .is-header.slate { background:#4a7a8a; }
+  .is-header.orange { background:#c0622a; }
+  .is-header.purple { background:#6b4fa0; }
+  .is-header.red { background:#c0392b; }
+  .is-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:white; }
+  .is-header.lime .is-title { color:#333; }
+  .is-icon { font-size:13px; }
+  .is-body { padding:12px 14px; }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+  .bullet-list { display:flex; flex-direction:column; gap:7px; }
+  .bullet-item { display:flex; align-items:flex-start; gap:8px; font-size:11.5px; color:#333; line-height:1.5; }
+  .b-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+  .b-dot.teal { background:#008486; }
+  .b-dot.dark { background:#111; }
+  .b-dot.lime { background:#9aaa20; }
+  .b-dot.orange { background:#e07b39; }
+  .b-dot.red { background:#c0392b; }
+
+  .tech-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tech-pill { font-size:10.5px; font-weight:600; padding:4px 12px; border-radius:14px; border:1.5px solid; }
+  .pill-dialpad { background:#fff0f0; color:#c0392b; border-color:#f5c6c6; }
+  .pill-teams { background:#e8f0ff; color:#2b5cb8; border-color:#c0d0f5; }
+  .pill-neutral { background:#f4f2ec; color:#555; border-color:#ddd; }
+  .pill-warning { background:#fff3cd; color:#856404; border-color:#f0d58c; }
+  .pill-comp { background:#f9f0ff; color:#6b4fa0; border-color:#d5c0f5; }
+
+  .comp-row { display:flex; gap:0; border-bottom:1px solid #f0ede6; padding:8px 0; font-size:11px; color:#333; line-height:1.5; align-items:center; }
+  .comp-row:last-child { border-bottom:none; }
+  .comp-name { width:30%; font-weight:700; color:#333; flex-shrink:0; }
+  .comp-price { width:30%; color:#777; flex-shrink:0; }
+  .comp-note { flex:1; color:#888; font-size:10.5px; }
+  .comp-badge { font-size:9px; font-weight:700; padding:2px 8px; border-radius:8px; white-space:nowrap; }
+  .badge-risk { background:#fff0f0; color:#c0392b; border:1px solid #f5c6c6; }
+  .badge-us { background:#e6f4f4; color:#008486; border:1px solid #b3dede; }
+  .badge-unknown { background:#f4f2ec; color:#888; border:1px solid #ddd; }
+
+  .flag-item { display:flex; align-items:flex-start; gap:8px; border-radius:6px; padding:8px 10px; font-size:11px; line-height:1.5; margin-bottom:6px; }
+  .flag-item:last-child { margin-bottom:0; }
+  .flag-item.warn { background:#fff8e6; border:1px solid #f0d58c; color:#7a5c00; }
+  .flag-item.good { background:#e8fff0; border:1px solid #b3deb8; color:#0a5c2a; }
+  .flag-item.risk { background:#fff0f0; border:1px solid #f5c6c6; color:#8b0000; }
+  .flag-item.info { background:#e6f4f4; border:1px solid #b3dede; color:#005558; }
+  .flag-icon { font-size:13px; flex-shrink:0; }
+
+  .agenda-item { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid #f0ede6; font-size:11.5px; color:#333; }
+  .agenda-item:last-child { border-bottom:none; }
+  .agenda-num { width:22px; height:22px; border-radius:50%; background:#008486; color:white; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .agenda-time { font-size:10px; color:#aaa; min-width:40px; text-align:right; flex-shrink:0; }
+
+  .q-item { padding:7px 0; border-bottom:1px solid #f0ede6; font-size:11.5px; color:#333; line-height:1.5; }
+  .q-item:last-child { border-bottom:none; }
+  .q-num { font-size:10px; font-weight:700; color:#008486; margin-bottom:2px; }
+
+  .slide-footer { background:white; border-top:1px solid #e0ddd6; padding:9px 28px; display:flex; justify-content:space-between; align-items:center; }
+  .fl { font-size:9.5px; color:#aaa; }
+  .fr { display:flex; gap:20px; }
+  .fi { text-align:right; }
+  .fi-l { font-size:8.5px; color:#bbb; text-transform:uppercase; }
+  .fi-v { font-size:11px; font-weight:600; color:#444; }
+
+  @media print {
+    body { background:white; padding:0; }
+    .toolbar { display:none; }
+    .slide { box-shadow:none; border-radius:0; width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="tool-btn" onclick="window.print()">🖨️ Print / Export PDF</button>
+</div>
+
+<div class="slide">
+
+  <div class="header">
+    <div class="logo">8x8</div>
+    <div class="hdr-center">
+      <div class="hdr-title">Hirsch Law Group — Pre-Call Brief</div>
+      <div class="hdr-sub">Carol Stream / Chicago, IL &nbsp;·&nbsp; UCaaS + CCaaS &nbsp;·&nbsp; 30 UC + 30 CC &nbsp;·&nbsp; Dialpad Displacement</div>
+    </div>
+    <div class="hdr-right">
+      <div>
+        <div class="hdr-badge">UCaaS + CCaaS</div>
+        <div class="hdr-badge urgent">⚡ Urgent — Exec Presentation Friday</div>
+      </div>
+      <div class="hdr-date">Prepared by Dustin Moya · April 1, 2026</div>
+    </div>
+  </div>
+
+  <div class="urgent-banner">
+    <span>⚡</span>
+    <span>Jenny Valencia is presenting to the executive team <strong>this Friday.</strong> She has list pricing from the 8x8 website and a RingCentral quote. Goal is to get negotiated 8x8 pricing in her hands <strong>today</strong> so she's presenting real numbers — not list.</span>
+  </div>
+
+  <div class="body">
+
+    <div class="left-sidebar">
+
+      <div class="sidebar-section">
+        <div class="ss-label">Deal Snapshot</div>
+        <div class="ss-row"><span class="ss-key">Account</span><span class="ss-val">Hirsch Law Group</span></div>
+        <div class="ss-row"><span class="ss-key">Industry</span><span class="ss-val">Criminal Defense & Immigration Law</span></div>
+        <div class="ss-row"><span class="ss-key">Location</span><span class="ss-val">Carol Stream + Chicago, IL</span></div>
+        <div class="ss-row"><span class="ss-key">UC Seats</span><span class="ss-val teal">30</span></div>
+        <div class="ss-row"><span class="ss-key">CC Seats</span><span class="ss-val teal">30</span></div>
+        <div class="ss-row"><span class="ss-key">Current MRC</span><span class="ss-val">~$5,000/mo (Dialpad)</span></div>
+        <div class="ss-row"><span class="ss-key">Expected MRC</span><span class="ss-val teal">~$5,500–$6,000/mo</span></div>
+        <div class="ss-row"><span class="ss-key">Incumbent</span><span class="ss-val amber">Dialpad</span></div>
+        <div class="ss-row"><span class="ss-key">Why Leaving</span><span class="ss-val red">Poor support</span></div>
+        <div class="ss-row"><span class="ss-key">Timeline</span><span class="ss-val red">Exec pres. Friday ⚡</span></div>
+        <div class="ss-row"><span class="ss-key">Stage</span><span class="ss-val">1 — Qualify</span></div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="ss-label">Partner</div>
+        <div class="contact-card">
+          <div class="cc-name">Alex</div>
+          <div class="cc-title">Elite Solutions</div>
+          <div class="cc-detail">Sourced and is driving this deal.<br/>Shared RingCentral quote with Dustin.<br/>Needs budgetary pricing today.</div>
+          <div class="cc-tags"><span class="cc-tag tag-partner">Partner</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="ss-label">Customer Contacts</div>
+        <div class="contact-card">
+          <div class="cc-name">Jenny Valencia</div>
+          <div class="cc-title">IT Admin — Hirsch Law Group</div>
+          <div class="cc-detail">Tasked by executives to find Dialpad replacement. Presenting options to exec team Friday. Got 8x8 list pricing from website — hasn't spoken to a rep yet.</div>
+          <div class="cc-tags">
+            <span class="cc-tag tag-champion">Champion</span>
+            <span class="cc-tag tag-urgent">Presenting Friday</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-name">Executive Team</div>
+          <div class="cc-title">Economic Buyers</div>
+          <div class="cc-detail">Directed Jenny to find a Dialpad replacement. Receiving the presentation Friday. Identity not confirmed — access through Jenny.</div>
+          <div class="cc-tags"><span class="cc-tag tag-eb">Economic Buyer</span><span class="cc-tag tag-confirm">Not Yet Accessed</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="ss-label">International Staff</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;">
+          <span style="font-size:10px;background:#f4f2ec;padding:3px 8px;border-radius:8px;border:1px solid #ddd;">Belgium</span>
+          <span style="font-size:10px;background:#f4f2ec;padding:3px 8px;border-radius:8px;border:1px solid #ddd;">Spain</span>
+          <span style="font-size:10px;background:#f4f2ec;padding:3px 8px;border-radius:8px;border:1px solid #ddd;">Mexico</span>
+          <span style="font-size:10px;background:#f4f2ec;padding:3px 8px;border-radius:8px;border:1px solid #ddd;">Honduras</span>
+          <span style="font-size:10px;background:#fff3cd;padding:3px 8px;border-radius:8px;border:1px solid #f0d58c;color:#856404;">Brazil ⚠️</span>
+        </div>
+        <div style="font-size:10px;color:#888;margin-top:8px;line-height:1.5;">CC agents are international but operate inbound only on US numbers via queue routing. Brazil may have telecom restrictions — flag for SE.</div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="ss-label">8x8 Team</div>
+        <div class="ss-row"><span class="ss-key">AE</span><span class="ss-val">Dustin Moya</span></div>
+        <div class="ss-row"><span class="ss-key">SE</span><span class="ss-val">Art (TBC)</span></div>
+      </div>
+
+    </div>
+
+    <div class="main-content">
+
+      <!-- ROW 1: Company + Current State -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">⚖️</span>
+            <span class="is-title">Company Background</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot teal"></div><strong>Hirsch Law Group</strong> — Illinois criminal defense & immigration law firm, headquartered in Carol Stream with Chicago presence</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>100+ years of combined legal experience — criminal defense, immigration, DUI, federal cases across all Illinois counties</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Multilingual staff — serves Spanish-speaking and international clients heavily, which explains the international agent presence</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Managing Attorney: Gordon H. Hirsch (former prosecutor, DePaul Law 2000)</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>CC team is an <strong>onboarding team</strong> — inbound calls, validate case, onboard client, hand off to CSM. Voice-only today, no omnichannel needed</div>
+              <div class="bullet-item"><div class="b-dot teal"></div>Currently on Dialpad — executive team directed Jenny Valencia (IT) to evaluate replacements due to <strong>poor support experience</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header dark">
+            <span class="is-icon">🖥️</span>
+            <span class="is-title">Current Environment & Requirements</span>
+          </div>
+          <div class="is-body">
+            <div class="tech-row">
+              <span class="tech-pill pill-dialpad">Dialpad (Leaving)</span>
+              <span class="tech-pill pill-teams">Microsoft Teams</span>
+              <span class="tech-pill pill-neutral">Clio (Case Mgmt)</span>
+              <span class="tech-pill pill-neutral">Salesforce (Deploying)</span>
+              <span class="tech-pill pill-warning">Agent Assist Needed</span>
+              <span class="tech-pill pill-warning">Auto QM Needed</span>
+            </div>
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot dark"></div>30 UC seats + 30 CC seats — CC team handles inbound onboarding calls only, voice channel exclusively</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>Leaving Dialpad for one reason: <strong>bad support</strong> — this is the primary driver and the hook to validate 8x8's support story</div>
+              <div class="bullet-item"><div class="b-dot dark"></div><strong>Clio integration</strong> required — Clio is their case management system. No native 8x8 connector confirmed; open API path, may need PS to build</div>
+              <div class="bullet-item"><div class="b-dot dark"></div><strong>Teams integration</strong> required — full 8x8 Work + Teams experience</div>
+              <div class="bullet-item"><div class="b-dot dark"></div><strong>Salesforce integration</strong> — deploying SF, will need 8x8 integration (X2 minimum)</div>
+              <div class="bullet-item"><div class="b-dot dark"></div><strong>Agent assist + automated QM</strong> — primary AI requirement for CC team optimization</div>
+              <div class="bullet-item"><div class="b-dot dark"></div>1:1 SMS for case managers only — no bulk SMS, no CC omnichannel</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: Competitive Landscape -->
+      <div class="info-section">
+        <div class="is-header slate">
+          <span class="is-icon">🏁</span>
+          <span class="is-title">Competitive Landscape — Jenny Is Presenting All of These Friday</span>
+        </div>
+        <div class="is-body" style="padding:0 14px;">
+          <div class="comp-row" style="border-bottom:1.5px solid #ddd;padding:6px 0;">
+            <div class="comp-name" style="font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;">Vendor</div>
+            <div class="comp-price" style="font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;">Known Pricing</div>
+            <div class="comp-note" style="font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:0.5px;">Notes</div>
+            <div style="width:80px;"></div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-name">8x8</div>
+            <div class="comp-price">List price from website</div>
+            <div class="comp-note">Jenny pulled pricing herself — no rep engagement. Goal is to get her negotiated pricing today before she presents list.</div>
+            <span class="comp-badge badge-us">← Us</span>
+          </div>
+          <div class="comp-row">
+            <div class="comp-name">RingCentral</div>
+            <div class="comp-price">EX: $1,400 · CX: $2,000 · Impl: $8,000</div>
+            <div class="comp-note">Jenny already has a quote. RC demoed with her. She checked TrustPilot — poor score. Alex flagged customers migrating off RC due to support issues.</div>
+            <span class="comp-badge badge-risk">Risk</span>
+          </div>
+          <div class="comp-row">
+            <div class="comp-name">Dialpad</div>
+            <div class="comp-price">Current ~$5K MRC</div>
+            <div class="comp-note">Incumbent. Leaving due to support. Not a contender.</div>
+            <span class="comp-badge badge-risk">Out</span>
+          </div>
+          <div class="comp-row">
+            <div class="comp-name">Zoom</div>
+            <div class="comp-price">Not finalized yet</div>
+            <div class="comp-note">In evaluation — no quote received yet. Alex will share when available.</div>
+            <span class="comp-badge badge-unknown">Pending</span>
+          </div>
+          <div class="comp-row">
+            <div class="comp-name">CTM</div>
+            <div class="comp-price">Quote received</div>
+            <div class="comp-note">In the mix — pricing details not shared.</div>
+            <span class="comp-badge badge-unknown">Unknown</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3: Why 8x8 + Flags -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header lime">
+            <span class="is-icon">✅</span>
+            <span class="is-title">Why 8x8 Wins This</span>
+          </div>
+          <div class="is-body">
+            <div class="bullet-list">
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Support story is the hook</strong> — they're leaving Dialpad for bad support, RC has bad TrustPilot reviews. 8x8's support track record + Stevie Award for PS is the differentiator. Lead with this.</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Dialpad displacement playbook</strong> — 8x8 wins these regularly. Familiar feature mapping, clean migration story</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Teams + 8x8 Work</strong> — native Teams integration with full UC back-end. Matches their environment</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>QMSA + Agent Assist</strong> — automated QM and agent assist are exactly what they asked for. Built into X7/X8 CC licensing</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Salesforce integration</strong> — native on X2+. They're deploying SF now — 8x8 is ready when they are</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Open API for Clio</strong> — 8x8 never says no to an integration. Clio path exists via PS or open API</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>International ready</strong> — Belgium, Spain, Mexico, Honduras supported. Brazil to validate.</div>
+              <div class="bullet-item"><div class="b-dot lime"></div><strong>Negotiated pricing beats list</strong> — RC quoted low, but they're losing business because of support. We don't need to be at RC's price — we need to be below list and above the noise.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header red">
+            <span class="is-icon">🚩</span>
+            <span class="is-title">Flags & Watch Items</span>
+          </div>
+          <div class="is-body">
+            <div class="flag-item risk">
+              <span class="flag-icon">⚡</span>
+              <div><strong>Exec presentation is Friday.</strong> Jenny needs negotiated 8x8 pricing TODAY — not list. If she presents list pricing, 8x8 looks expensive and is effectively out before anyone talks to her.</div>
+            </div>
+            <div class="flag-item risk">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Deal registration.</strong> Dustin confirmed he deal regged this — verify it hit Kevin (Director) and got routed correctly. Nothing moves without it being protected.</div>
+            </div>
+            <div class="flag-item warn">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Clio integration = custom build.</strong> No native 8x8-Clio connector. This is a PS/open API conversation — flag the cost and timeline before it becomes a demo surprise.</div>
+            </div>
+            <div class="flag-item warn">
+              <span class="flag-icon">🚩</span>
+              <div><strong>Brazil flag.</strong> 8x8 may have telecom restrictions for Brazil. CC agents are inbound-only on US numbers so it may be fine — but SE needs to validate before the demo.</div>
+            </div>
+            <div class="flag-item warn">
+              <span class="flag-icon">🚩</span>
+              <div><strong>One step removed from buyer.</strong> Alex → Jenny → Exec team. We're two layers away from the decision. Win Jenny today with pricing, then work with Alex to get in the room with the exec team.</div>
+            </div>
+            <div class="flag-item info">
+              <span class="flag-icon">💡</span>
+              <div><strong>RC quoted low but they already checked TrustPilot.</strong> Jenny did her homework — she's skeptical of RC. Don't race to beat their price. Position on support and capability, not just cost.</div>
+            </div>
+            <div class="flag-item good">
+              <span class="flag-icon">✅</span>
+              <div><strong>No omnichannel needed.</strong> Voice-only CC keeps the solution clean and cost-efficient. No need to overbuild — scope is clear.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 4: Agenda + Questions -->
+      <div class="two-col">
+
+        <div class="info-section">
+          <div class="is-header teal">
+            <span class="is-icon">📅</span>
+            <span class="is-title">Suggested Call Agenda — Demo</span>
+          </div>
+          <div class="is-body">
+            <div class="agenda-item">
+              <div class="agenda-num">1</div>
+              <div style="flex:1;">Intro — acknowledge Alex/Elite Solutions, thank Jenny for the time</div>
+              <div class="agenda-time">3 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">2</div>
+              <div style="flex:1;">Validate current state — Dialpad pain, what specifically failed on support</div>
+              <div class="agenda-time">8 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">3</div>
+              <div style="flex:1;">8x8 UC + Teams integration — her whole team lives in Teams</div>
+              <div class="agenda-time">8 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">4</div>
+              <div style="flex:1;">CC platform — onboarding queue, agent assist, QMSA demo</div>
+              <div class="agenda-time">10 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">5</div>
+              <div style="flex:1;">Integrations — Clio path, Salesforce, Teams</div>
+              <div class="agenda-time">5 min</div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-num">6</div>
+              <div style="flex:1;">Next steps — get in front of exec team before or after Friday</div>
+              <div class="agenda-time">5 min</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="is-header purple">
+            <span class="is-icon">❓</span>
+            <span class="is-title">Key Discovery Questions</span>
+          </div>
+          <div class="is-body">
+            <div class="q-item">
+              <div class="q-num">Q1 — Dialpad Pain</div>
+              "What specifically broke down with Dialpad support? Was it response time, resolution quality, escalation? I want to make sure we address that directly."
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q2 — Exec Priorities</div>
+              "When you present Friday — what are the exec team's top 2-3 criteria for making this decision? Is it price, support, features, or something else?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q3 — Clio Integration</div>
+              "On the Clio integration — how are you using it today alongside your phone system, if at all? And what would the ideal integration look like?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q4 — CC Team</div>
+              "The onboarding team — walk me through a typical inbound call. They validate the case, onboard, then hand to CSM — is that all happening on the phone, or is there any digital channel involved?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q5 — Decision Path</div>
+              "After Friday's presentation — what does the decision process look like? Is the exec team making a call that day or is there a next step?"
+            </div>
+            <div class="q-item">
+              <div class="q-num">Q6 — Brazil</div>
+              "On your international staff — the team in Brazil, are they receiving inbound calls through the US queue, or do they need to make any local outbound calls in Brazil?"
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="fl">8x8, Inc. — Confidential · Hirsch Law Group Pre-Call Brief · Do Not Distribute</div>
+    <div class="fr">
+      <div class="fi"><div class="fi-l">Partner</div><div class="fi-v">Alex · Elite Solutions</div></div>
+      <div class="fi"><div class="fi-l">Recommended</div><div class="fi-v">30× X2 + 30× X7</div></div>
+      <div class="fi"><div class="fi-l">Urgency</div><div class="fi-v">Exec Pres. Friday ⚡</div></div>
+      <div class="fi"><div class="fi-l">AE</div><div class="fi-v">Dustin Moya</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
