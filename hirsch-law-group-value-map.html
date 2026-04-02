@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,28 +18,23 @@
 
   .slide { width:1100px; background:#EAE9E1; border-radius:10px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.15); }
 
-  /* HEADER */
   .header { display:flex; justify-content:space-between; align-items:center; padding:14px 32px 10px; border-bottom:1.5px solid #bbb; }
   .logo { font-size:22px; font-weight:900; color:#111; letter-spacing:-1px; }
   .header-right { text-align:right; }
   .header-right .account { font-size:12px; font-weight:700; color:#008486; }
   .header-right .meta { font-size:10px; color:#aaa; margin-top:3px; }
 
-  /* BODY */
   .body { display:flex; min-height:620px; }
 
-  /* LEFT NAV */
   .left-nav { width:240px; flex-shrink:0; padding:28px 24px 28px 32px; border-right:1px solid #ccc; display:flex; flex-direction:column; }
 
   .customer-logo { font-size:10px; color:#bbb; font-style:italic; margin-bottom:28px; min-height:36px; display:flex; align-items:center; border:1.5px dashed #ddd; border-radius:6px; padding:8px 12px; justify-content:center; text-align:center; }
 
   .nav-item { padding:12px 0 9px; border-bottom:1.5px solid #aaa; cursor:pointer; transition:color 0.15s; }
   .nav-label { font-size:16px; font-weight:700; color:#111; transition:color 0.15s; }
-  .nav-item:hover .nav-label { color:#008486; }
-  .nav-item.active .nav-label { color:#008486; }
+  .nav-item:hover .nav-label, .nav-item.active .nav-label { color:#008486; }
   .nav-meta { font-size:9.5px; color:#bbb; margin-top:3px; }
 
-  /* Proposal snapshot */
   .proposal-box { margin-top:auto; padding-top:20px; border-top:1px solid #ddd; }
   .pb-label { font-size:8.5px; text-transform:uppercase; letter-spacing:0.6px; color:#bbb; font-weight:700; margin-bottom:8px; }
   .pb-row { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #f0ede6; font-size:10.5px; }
@@ -48,7 +42,6 @@
   .pb-key { color:#888; }
   .pb-val { font-weight:700; color:#008486; }
 
-  /* CONTENT */
   .content { flex:1; padding:28px 36px; overflow-y:auto; }
   .content-label { font-size:9.5px; text-transform:uppercase; letter-spacing:0.7px; color:#aaa; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
   .content-label::after { content:''; flex:1; height:1px; background:#ddd; }
@@ -66,7 +59,6 @@
   .bullet-text:focus { border-bottom:1.5px solid #008486; background:rgba(0,132,134,0.04); border-radius:3px; padding:0 3px; }
   .bullet-text:empty::before { content:attr(data-placeholder); color:#ccc; font-style:italic; pointer-events:none; }
 
-  /* Capabilities table */
   .cap-table { width:100%; border-collapse:collapse; margin-top:4px; }
   .cap-table thead tr { border-bottom:1.5px solid #bbb; }
   .cap-table thead th { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#888; padding:7px 10px 8px; text-align:left; }
@@ -81,7 +73,6 @@
   .add-btn { display:inline-flex; align-items:center; gap:5px; font-size:10.5px; color:#aaa; cursor:pointer; margin-top:10px; padding:4px 8px; border:1px dashed #ccc; border-radius:5px; background:transparent; font-family:inherit; transition:all 0.2s; }
   .add-btn:hover { color:#008486; border-color:#008486; background:#e6f4f4; }
 
-  /* FOOTER */
   .footer { border-top:1px solid #ccc; padding:10px 32px; display:flex; justify-content:space-between; align-items:center; }
   .footer-left { font-size:9.5px; color:#aaa; }
   .footer-right { display:flex; gap:24px; }
@@ -106,7 +97,6 @@
 
 <div class="slide">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="logo">8x8</div>
     <div class="header-right">
@@ -115,68 +105,67 @@
     </div>
   </div>
 
-  <!-- BODY -->
   <div class="body">
 
-    <!-- LEFT NAV -->
     <div class="left-nav">
       <div class="customer-logo">Hirsch Law Group<br/>Carol Stream + Chicago, IL</div>
 
-      <div class="nav-item active" onclick="scrollTo('objectives')">
+      <div class="nav-item active" onclick="scrollToSection('objectives')">
         <div class="nav-label">Objectives</div>
         <div class="nav-meta">What they're trying to achieve</div>
       </div>
-      <div class="nav-item" onclick="scrollTo('strategies')">
+      <div class="nav-item" onclick="scrollToSection('strategies')">
         <div class="nav-label">Strategies</div>
         <div class="nav-meta">How they plan to get there</div>
       </div>
-      <div class="nav-item" onclick="scrollTo('initiatives')">
+      <div class="nav-item" onclick="scrollToSection('initiatives')">
         <div class="nav-label">Initiatives</div>
         <div class="nav-meta">Active drivers & projects</div>
       </div>
-      <div class="nav-item" onclick="scrollTo('challenges')">
+      <div class="nav-item" onclick="scrollToSection('challenges')">
         <div class="nav-label">Challenges</div>
         <div class="nav-meta">What's standing in the way</div>
       </div>
-      <div class="nav-item" onclick="scrollTo('capabilities')">
+      <div class="nav-item" onclick="scrollToSection('capabilities')">
         <div class="nav-label">Required Capabilities</div>
         <div class="nav-meta">How 8x8 delivers</div>
       </div>
 
       <div class="proposal-box">
-        <div class="pb-label">Proposed Solution</div>
+        <div class="pb-label">Proposed Solution — Q-00983336</div>
         <div class="pb-row"><span class="pb-key">UC Users</span><span class="pb-val">30 × X2</span></div>
         <div class="pb-row"><span class="pb-key">CC Agents</span><span class="pb-val">30 × X7</span></div>
+        <div class="pb-row"><span class="pb-key">MRC (pre-tax)</span><span class="pb-val">$3,276.30</span></div>
+        <div class="pb-row"><span class="pb-key">MRC (w/ tax)</span><span class="pb-val">$3,965.97</span></div>
+        <div class="pb-row"><span class="pb-key">Term</span><span class="pb-val">36 months</span></div>
         <div class="pb-row"><span class="pb-key">Training</span><span class="pb-val">Bronze Sub.</span></div>
-        <div class="pb-row"><span class="pb-key">PS</span><span class="pb-val">Enhanced + Scope</span></div>
+        <div class="pb-row"><span class="pb-key">PS</span><span class="pb-val">Scope TBD</span></div>
         <div class="pb-row"><span class="pb-key">Stage</span><span class="pb-val">1 — Qualify</span></div>
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="content" id="content-area">
 
-      <div class="content-label">Value Map — Jenny Valencia · Hirsch Law Group</div>
+      <div class="content-label">Value Map — Jaime Valencia · Hirsch Law Group</div>
 
       <!-- OBJECTIVES -->
       <div class="section" id="objectives">
         <div class="section-title">Objectives</div>
         <div class="bullet-list" id="obj-list">
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Replace Dialpad with a platform that has best-in-class support — executive mandate after repeated support failures</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Replace Dialpad with a platform that delivers reliable support and enterprise-grade uptime — executive-level mandate following repeated platform failures</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Modernize the onboarding team's contact center with automated QM and agent assist capabilities</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Modernize the contact center with AI-powered quality management and agent assist to improve onboarding team performance</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Unify communications under one platform — UCaaS, CCaaS, Teams, Clio, and Salesforce all connected</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Consolidate UCaaS and CCaaS onto one platform — eliminating the multi-vendor complexity they have today</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Enable international staff across 5 countries to operate seamlessly within the US-based contact center</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Connect communications with Salesforce (deploying) and Clio (case management) to eliminate manual data entry and improve case team efficiency</div>
+          </div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Enable international staff across Belgium, Spain, Mexico, Honduras, and Brazil to operate seamlessly within the US-based contact center</div>
           </div>
         </div>
         <button class="add-btn" onclick="addBullet('obj-list')">＋ Add objective</button>
@@ -186,21 +175,17 @@
       <div class="section" id="strategies">
         <div class="section-title">Strategies</div>
         <div class="bullet-list" id="strat-list">
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Deploy 30 X2 UC seats with native Teams integration and Salesforce connectivity for back-office staff and case managers</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Deploy 30 × X2 for back-office and case management staff — native Teams integration, Salesforce connectivity, SMS, and 14-country unlimited calling</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Deploy 30 X7 CC seats for the onboarding team — voice-only inbound queue, with QMSA and agent assist to optimize performance</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Deploy 30 × X7 for the onboarding contact center team — omnichannel, ACD/IVR, supervisor workspace, and AI-driven QM and agent assist</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Integrate with Clio (case management) via 8x8 open API — eliminate manual data entry between phone system and case files</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Integrate Clio via 8x8 open API (PS-scoped post-demo) — push call data, notes, and recordings directly into case files automatically</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Scale from 20 to 30 CC agents without renegotiating — right-size now, grow without disruption</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Land on a single 36-month agreement that covers UC + CC, scales cleanly, and removes the need for multiple vendor contracts</div>
           </div>
         </div>
         <button class="add-btn" onclick="addBullet('strat-list')">＋ Add strategy</button>
@@ -210,21 +195,17 @@
       <div class="section" id="initiatives">
         <div class="section-title">Initiatives</div>
         <div class="bullet-list" id="init-list">
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Executive-directed vendor evaluation underway — presenting final options to exec team this Friday</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Executive-directed vendor evaluation — Jaime presenting final options to the exec team this Friday (April 2026)</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Active deployment of Salesforce — new platform needs to integrate with UCaaS/CCaaS from day one</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Active Salesforce deployment — new communications platform must integrate with SF from day one, not as a future phase</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Expanding CC team from 20 to 30 concurrent agents — growth requires a scalable platform, not a patch on the existing one</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">CC team expansion underway — growing from ~20 to 30 concurrent agents, requiring a scalable platform that won't need to be renegotiated</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Evaluating: 8x8, RingCentral, Zoom, CTM — 8x8 currently represented by website list pricing; goal is to replace that with a real proposal before Friday</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Quote Q-00983336 issued — 36-month term, $3,276.30/mo recurring, expires 4/30/2026. Demo and PS scoping call to follow exec presentation.</div>
           </div>
         </div>
         <button class="add-btn" onclick="addBullet('init-list')">＋ Add initiative</button>
@@ -234,25 +215,20 @@
       <div class="section" id="challenges">
         <div class="section-title">Challenges</div>
         <div class="bullet-list" id="chall-list">
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Dialpad support failures created an executive-level mandate — the bar for the next platform is reliability and accountability, not just features</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Dialpad support failures created an executive-level mandate — the next platform must demonstrate accountability and reliability, not just features</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">No QM or agent assist today — onboarding team performance is unmonitored, coaching is manual, quality is inconsistent</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">No QM or agent assist in place today — CC team performance is unmonitored, coaching is entirely manual, and quality is inconsistent across agents</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Clio, Salesforce, and the phone system are completely disconnected — agents manually cross-reference systems during every call</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Clio, Salesforce, and the phone system are completely disconnected — agents manually cross-reference three systems on every call</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">International staff in 5 countries need to operate inside a US-based inbound queue — platform must support Belgium, Spain, Mexico, Honduras, and Brazil</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">International staff in 5 countries need to operate within the US inbound queue — platform must support global agent participation without separate per-country infrastructure</div>
           </div>
-          <div class="bullet-item">
-            <div class="bullet-dot"></div>
-            <div class="bullet-text" contenteditable="true">Jenny is presenting website list pricing for 8x8 on Friday — without a real proposal, 8x8 looks like the most expensive option in the room</div>
+          <div class="bullet-item"><div class="bullet-dot"></div>
+            <div class="bullet-text" contenteditable="true">Exec team was previously evaluating 8x8 against website list pricing — proposal Q-00983336 now provides a real number to replace that comparison</div>
           </div>
         </div>
         <button class="add-btn" onclick="addBullet('chall-list')">＋ Add challenge</button>
@@ -272,51 +248,57 @@
           </thead>
           <tbody id="cap-body">
             <tr>
-              <td>Voice-based inbound CC with queuing</td>
-              <td>X7 — ACD, IVR, inbound call queues, skill-based routing, supervisor workspace</td>
-              <td>Full CC back-end, not a bolted-on add-on. Supervisor visibility from day one.</td>
+              <td>Voice inbound CC with intelligent routing</td>
+              <td>X7 — ACD, IVR, skill-based routing, queued callback, supervisor workspace</td>
+              <td>Full CC back-end with supervisor visibility from day one. Not a bolt-on queue add-on.</td>
               <td><span class="lic-badge">X7 CC</span></td>
             </tr>
             <tr>
-              <td>Automated QM + Agent Assist</td>
-              <td>QMSA — AI-powered call categorization, sentiment, transcription. Agent assist surfaces KB content in real time during calls</td>
-              <td>Automated — not manual sampling. Every call categorized. Coaches agents without a manager listening to every recording.</td>
+              <td>AI Quality Management (QMSA)</td>
+              <td>AI-powered call categorization, sentiment analysis, auto-transcription, and QA scoring across 100% of calls</td>
+              <td>No manual call sampling. Every interaction scored automatically. Managers coach from data, not gut feel.</td>
               <td><span class="lic-badge">X7 + Add-on</span></td>
             </tr>
             <tr>
+              <td>Agent Assist (real-time AI)</td>
+              <td>Smart Assist (Creovai) — surfaces knowledge base content and suggested responses in real time as the call progresses</td>
+              <td>Reduces handle time, improves first-call resolution, and accelerates new agent ramp — especially valuable during CC team expansion</td>
+              <td><span class="lic-badge">X7 Add-on</span></td>
+            </tr>
+            <tr>
+              <td>Post-call AI summaries + action items</td>
+              <td>Automated post-call transcription, summaries, and next-step action items — pushed to the agent workspace and CRM</td>
+              <td>Eliminates manual call notes. Agents move to the next call faster. Every interaction is documented without extra effort.</td>
+              <td><span class="lic-badge">X7 CC</span></td>
+            </tr>
+            <tr>
               <td>Microsoft Teams integration</td>
-              <td>Direct Routing + 8x8 Work widget inside Teams — calls, voicemail, SMS all native in Teams UI</td>
-              <td>Presence sync across 8x8 + Teams. Full UC back-end. Business continuity if Teams has a bad day.</td>
+              <td>8x8 Voice for Teams via Direct Routing — calls, voicemail, and SMS native inside Teams UI with full UC back-end</td>
+              <td>Presence sync across 8x8 + Teams. Business continuity if Teams has an outage. Not just PSTN replacement.</td>
               <td><span class="lic-badge">X2 UC</span></td>
             </tr>
             <tr>
               <td>Salesforce integration</td>
-              <td>Native 8x8 + Salesforce connector — screen pop, auto call logging, click-to-dial</td>
-              <td>No manual data entry. Every call automatically logged to the SF record. Ready when they go live on SF.</td>
+              <td>Native 8x8 + Salesforce connector — screen pop on inbound, auto call logging, click-to-dial from SF records</td>
+              <td>Ready the day SF goes live. Zero manual data entry. Every call logged automatically to the case or contact record.</td>
               <td><span class="lic-badge">X2 UC</span></td>
             </tr>
             <tr>
               <td>Clio (case management) integration</td>
-              <td>Open API — 8x8 PS builds custom integration to Clio. Call data, notes, recordings pushed to case file automatically</td>
-              <td>8x8 never says no to an integration. Custom build scoped post-demo — eliminates manual cross-referencing during calls.</td>
+              <td>Custom build via 8x8 open API — PS-scoped post-demo. Call data, recordings, and notes pushed directly into Clio case files</td>
+              <td>Eliminates the most painful daily friction for case managers. Scoped to their exact workflow — not a generic integration.</td>
               <td><span class="lic-badge">PS Scoped</span></td>
             </tr>
             <tr>
               <td>International staff support (5 countries)</td>
-              <td>8x8 global platform — PSTN replacement in 50+ countries. CC agents in Belgium, Spain, Mexico, Honduras receive inbound on US queue numbers</td>
-              <td>Single platform globally. No per-country carriers to manage. Brazil to be validated by SE pre-demo.</td>
+              <td>8x8 global platform — PSTN in 50+ countries. Agents in Belgium, Spain, Mexico, Honduras, and Brazil receive inbound on US queue numbers</td>
+              <td>Single platform globally. No per-country carriers. One admin console, one support team, one SLA.</td>
               <td><span class="lic-badge">X7 CC</span></td>
             </tr>
             <tr>
-              <td>1:1 SMS for case managers</td>
-              <td>Business SMS/MMS included on X2 — each user's DID is SMS-enabled</td>
-              <td>No separate texting tool. Case managers send from their business number, not a personal cell.</td>
-              <td><span class="lic-badge">X2 UC</span></td>
-            </tr>
-            <tr>
-              <td>Reliable platform + world-class support</td>
-              <td>99.999% financially-backed SLA. Stevie Award winner for professional services and implementation.</td>
-              <td>The entire reason they're leaving Dialpad. 8x8's support track record is a direct response to their #1 pain point.</td>
+              <td>Enterprise-grade support + SLA</td>
+              <td>99.999% financially-backed platform-wide SLA. Dedicated Customer Success post-go-live. Stevie Award winner for PS and implementation.</td>
+              <td>The direct answer to why they're leaving Dialpad. Accountability is built into the contract, not just promised in a sales call.</td>
               <td><span class="lic-badge">All Tiers</span></td>
             </tr>
           </tbody>
@@ -327,13 +309,12 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
-    <div class="footer-left">8x8, Inc. — Confidential &nbsp;·&nbsp; Hirsch Law Group Value Map</div>
+    <div class="footer-left">8x8, Inc. — Confidential &nbsp;·&nbsp; Hirsch Law Group Value Map &nbsp;·&nbsp; hirsch-law-group-value-map.html</div>
     <div class="footer-right">
       <div class="fi"><div class="fi-l">UC</div><div class="fi-v">30 × X2</div></div>
       <div class="fi"><div class="fi-l">CC</div><div class="fi-v">30 × X7</div></div>
-      <div class="fi"><div class="fi-l">Training</div><div class="fi-v">Bronze Subscription</div></div>
+      <div class="fi"><div class="fi-l">MRC</div><div class="fi-v">$3,965.97</div></div>
       <div class="fi"><div class="fi-l">AE</div><div class="fi-v">Dustin Moya</div></div>
     </div>
   </div>
@@ -348,9 +329,16 @@
     document.querySelectorAll('.nav-item')[sections.indexOf(id)].classList.add('active');
   }
 
-  document.querySelectorAll('.nav-item').forEach((item, i) => {
-    const sections = ['objectives','strategies','initiatives','challenges','capabilities'];
-    item.addEventListener('click', () => scrollToSection(sections[i]));
+  const contentArea = document.getElementById('content-area');
+  const sectionIds = ['objectives','strategies','initiatives','challenges','capabilities'];
+  contentArea.addEventListener('scroll', () => {
+    let current = sectionIds[0];
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if(el && el.offsetTop - contentArea.offsetTop <= contentArea.scrollTop + 60) current = id;
+    });
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[sectionIds.indexOf(current)].classList.add('active');
   });
 
   function addBullet(listId) {
@@ -373,18 +361,6 @@
     tbody.appendChild(row);
     row.querySelector('td').focus();
   }
-
-  const contentArea = document.getElementById('content-area');
-  const sectionIds = ['objectives','strategies','initiatives','challenges','capabilities'];
-  contentArea.addEventListener('scroll', () => {
-    let current = sectionIds[0];
-    sectionIds.forEach(id => {
-      const el = document.getElementById(id);
-      if(el && el.offsetTop - contentArea.offsetTop <= contentArea.scrollTop + 60) current = id;
-    });
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.nav-item')[sectionIds.indexOf(current)].classList.add('active');
-  });
 </script>
 </body>
 </html>
